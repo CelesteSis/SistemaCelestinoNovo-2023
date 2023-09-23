@@ -5,8 +5,8 @@
  */
 package view;
 
-//import bean.Usuario;
-//import dao.Usuario_DAO;
+import bean.RccUsuario;
+import dao.Usuario_DAO;
 import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import tools.Util;
 
 
 /**
@@ -25,6 +26,7 @@ import javax.swing.JOptionPane;
 public class JFrmLogin extends javax.swing.JFrame {
     
     public int tentativas;
+    private RccUsuario rccUsuario;
 
     /**
      * Creates new form JFrmLogin
@@ -33,9 +35,11 @@ public class JFrmLogin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.getHSBColor(180, 204, 0x78));
+        
+        
     }
     
-    public ResultSet verificao(Usuario usuario) {
+    public ResultSet verificao(RccUsuario rccUsuario) {
         String url, user, password;
         url = "jdbc:mysql://10.7.0.51:33062/db_rebeca_celestino";
         user = "rebeca_celestino";
@@ -97,7 +101,7 @@ public class JFrmLogin extends javax.swing.JFrame {
         jLabel1.setText("Login");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText("Usuario Apelido:");
+        jLabel2.setText("Usuario (apelido):");
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("Senha:");
@@ -260,14 +264,15 @@ private void logar() {
     if (tentativas < 3) {
             try {
             
-            Usuario usuario = new Usuario();
-            usuario.setApelido(jTxtApelidoUser.getText());
+            RccUsuario rccUsuario = new RccUsuario();
+            rccUsuario.setRccApelido(jTxtApelidoUser.getText());
             
             //Chamar o método para fazer a validação 
-            Usuario usuarioVer = new Usuario();
+            RccUsuario usuarioVer = new RccUsuario();
             ResultSet verificaApelido = verificao(usuarioVer);
             if (verificaApelido.next()) { //.next para próximo
                 //chama a tela principal
+                Util.mensagem("Usuario Logado com sucesso!");
                 JOptionPane.showMessageDialog(null, "Usuario Logado com sucesso!");
                 JFrmTelaPrincipal jFrmTelaPrincipal = new JFrmTelaPrincipal(null, true);
                 jFrmTelaPrincipal.setVisible(true);

@@ -5,7 +5,7 @@
  */
 package view;
 
-import bean.Usuario;
+import bean.RccUsuario;
 import bean.UsuarioControle;
 import dao.Usuario_DAO;
 import java.util.List;
@@ -119,15 +119,16 @@ public class JDlgUsuarioPesquisa extends javax.swing.JDialog {
     private void jBtnOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnOkActionPerformed
         // TODO add your handling code here:
         int rowSel = jTable1.getSelectedRow();
-        Usuario usuario = usuarioControle.getBean(rowSel);
-        jDlgUsuario.beanView(usuario);
+        RccUsuario rccUsuario = usuarioControle.getBean(rowSel);
+        jDlgUsuario.beanView(rccUsuario);
         setVisible(false);
     }//GEN-LAST:event_jBtnOkActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Consulta cancelada.");
-        setDefaultCloseOperation(JDlgProduto.EXIT_ON_CLOSE);
+        setVisible(false);
+        //setDefaultCloseOperation(JDlgUsuarioPesquisa.EXIT_ON_CLOSE);
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     /**

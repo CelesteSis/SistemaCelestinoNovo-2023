@@ -18,7 +18,7 @@ public abstract class DAO_Abstract {
     public Session session;
     
     public DAO_Abstract () {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory(); //criamo so obj session factory
+        SessionFactory sessionFactory = NewHibernateUtil.getSessionFactory(); //criamo so obj session factory
         session = sessionFactory.openSession();//abri uma seção
     }
     

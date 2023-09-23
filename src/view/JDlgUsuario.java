@@ -5,16 +5,14 @@
  */
 package view;
 
-import bean.Usuario;
-import bean.Venda;
+import bean.RccUsuario;
 import dao.Usuario_DAO;
 import javax.swing.text.MaskFormatter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
+import tools.Util;
 
 /**
  *
@@ -25,6 +23,9 @@ public class JDlgUsuario extends javax.swing.JDialog {
     private boolean incluindo; //variavel boolean para diferenciar o tipo de inclusão
     MaskFormatter mascaraCpf; 
     MaskFormatter mascaraNascimento;
+    
+    public RccUsuario rccUsuario; //atributo global da classe
+    public Usuario_DAO usuario_DAO;
 
     /**
      * Creates new form JDlgUsuario
@@ -32,10 +33,13 @@ public class JDlgUsuario extends javax.swing.JDialog {
     public JDlgUsuario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        desabilitar();
+        Util.habilitar(false, jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jPwfSenha, jCboNivel, jChbAtivo, jChbAutomatico, jBtnConfirmar, jBtnCancelar);
+        Util.habilitar(true, jBtnIncluir, jBtnAlterar, jBtnExcluir, jBtnPesquisar);
         setSize(680, 400);
         setTitle("Cadastro de Usuários");
         setLocationRelativeTo(null);
+        
+        usuario_DAO = new Usuario_DAO(); 
         
         try { //fechar a instrução com o Try Catch
             mascaraCpf = new MaskFormatter("###.###.###-##"); //("###.###.###-##")
@@ -49,100 +53,39 @@ public class JDlgUsuario extends javax.swing.JDialog {
         jFmtNascimento.setFormatterFactory(new DefaultFormatterFactory(mascaraNascimento)); 
     }
     
-    public void habilitar(){
-    jTxtId_usuario.setEnabled(true);
-    jChbAutomatico.setEnabled(true);
-    jChbAtivo.setEnabled(true);
-    jTxtNome.setEnabled(true);
-    jTxtApelido.setEnabled(true);
-    jFmtCpf.setEnabled(true);
-    jFmtNascimento.setEnabled(true);
-    jPwfSenha.setEnabled(true);
-    jCboNivel.setEnabled(true);
-    jBtnConfirmar.setEnabled(true);
-    jBtnCancelar.setEnabled(true);
-    
-    jBtnIncluir.setEnabled(false);
-    jBtnAlterar.setEnabled(false);
-    jBtnExcluir.setEnabled(false);
-    jBtnPesquisar.setEnabled(false);
-    };
-    
-    public void desabilitar(){
-    jTxtId_usuario.setEnabled(false);
-    jChbAutomatico.setEnabled(false);
-    jChbAtivo.setEnabled(false);
-    jTxtNome.setEnabled(false);
-    jTxtApelido.setEnabled(false);
-    jFmtCpf.setEnabled(false);
-    jFmtNascimento.setEnabled(false);
-    jPwfSenha.setEnabled(false);
-    jCboNivel.setEnabled(false);
-    jBtnConfirmar.setEnabled(false);
-    jBtnCancelar.setEnabled(false);
-    
-    jBtnIncluir.setEnabled(true);
-    jBtnAlterar.setEnabled(true);
-    jBtnExcluir.setEnabled(true);
-    jBtnPesquisar.setEnabled(true);
-    };
-    
     public void automatico() {
     jTxtId_usuario.setEnabled(false);
     };
+
     
-    public void limparCampos() {
-        jTxtId_usuario.setText("");
-        jTxtNome.setText("");
-        jTxtApelido.setText("");
-        jFmtCpf.setText("");
-        jFmtNascimento.setText("");
-        jCboNivel.setSelectedIndex(-1);
-        jPwfSenha.setText("");
-        jChbAtivo.setSelected(false);
-        jChbAutomatico.setSelected(false);
+    public RccUsuario viewBean() { //método para pegar da tela e jogar no bean
+        
+        int id = Util.strInt(jTxtId_usuario.getText());
+        rccUsuario.setRccIdUsuario(id);
+        
+        rccUsuario.setRccNome(jTxtNome.getText());
+        rccUsuario.setRccApelido(jTxtApelido.getText());
+        rccUsuario.setRccCpf(jFmtCpf.getText());
+        rccUsuario.setRccNascimento(Util.strDate(jFmtNascimento.getText()));
+        rccUsuario.setRccSenha(jPwfSenha.getText());
+        rccUsuario.setRccNivel(jCboNivel.getSelectedIndex());
+        rccUsuario.setRccAtivo(jChbAtivo.isSelected() == true ? "S" : "N");
+        
+        return rccUsuario;
     };
     
-    public Usuario viewBean() { //método para pegar da tela e jogar no bean
-        Usuario usuario = new Usuario(); //criando o bean
+    public void beanView(RccUsuario rccUsuario) { //do banco para a tela
         
-        int id = Integer.valueOf(jTxtId_usuario.getText());
-        
-        usuario.setId_usuario(id);
-        usuario.setNome(jTxtNome.getText());
-        usuario.setApelido(jTxtApelido.getText());
-        usuario.setCpf(jFmtCpf.getText());
-        SimpleDateFormat formataNascimento = new SimpleDateFormat("dd/MM/yyyy"); //convertendo string para Date
-          try {
-             usuario.setNascimento(formataNascimento.parse(jFmtNascimento.getText()));
-            } catch (ParseException ex) {
-             System.out.println("Erro em -Nascimento-!" + ex.getMessage());
-            }
-        usuario.setSenha(jPwfSenha.getText());
-        usuario.setNivel(jCboNivel.getSelectedIndex());
-        usuario.setAtivo(jChbAtivo.isSelected() == true ? "S" : "N");
-        
-        //if (jChbAtivo.isSelected() == true) {// o Ativo esta selecionado?
-            //usuario.setAtivo("S");
-        //}else {
-            //usuario.setAtivo("N");
-        //}
-        return usuario;
-    };
-    
-    public void beanView(Usuario usuario) { //do banco para a tela
-        
-        String valor = String.valueOf(usuario.getId_usuario()); //converte int para string (pelo Text)
-        
+        String valor = Util.intStr(rccUsuario.getRccIdUsuario()); //converte int para string (pelo Text)
         jTxtId_usuario.setText(valor);
-        jTxtNome.setText(usuario.getNome());
-        jTxtApelido.setText(usuario.getApelido());
-        jFmtCpf.setText(usuario.getCpf());
-        SimpleDateFormat formataNascimento = new SimpleDateFormat("dd/MM/yyyy");// Convertendo date para String
-        jFmtNascimento.setText(formataNascimento.format(usuario.getNascimento()));
-        jPwfSenha.setText(usuario.getSenha());
-        jCboNivel.setSelectedIndex(usuario.getNivel());
-        if (usuario.getAtivo().equals("S") == true) { //caso esteja "S" o ativo é true
+        
+        jTxtNome.setText(rccUsuario.getRccNome());
+        jTxtApelido.setText(rccUsuario.getRccApelido());
+        jFmtCpf.setText(rccUsuario.getRccCpf());
+        jFmtNascimento.setText(Util.dateStr(rccUsuario.getRccNascimento()));
+        jPwfSenha.setText(rccUsuario.getRccSenha());
+        jCboNivel.setSelectedIndex(rccUsuario.getRccNivel());
+        if (rccUsuario.getRccAtivo().equals("S") == true) { //caso esteja "S" o ativo é true
             jChbAtivo.setSelected(true);
         }else {
             jChbAtivo.setSelected(false);
@@ -366,38 +309,46 @@ public class JDlgUsuario extends javax.swing.JDialog {
 
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
-        habilitar();
-        limparCampos();
+        Util.habilitar(true, jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jPwfSenha, jCboNivel, jChbAtivo, jBtnConfirmar, jBtnCancelar, jChbAutomatico);
+        Util.habilitar(false, jBtnIncluir, jBtnAlterar, jBtnExcluir, jBtnPesquisar); 
+
         incluindo = true;
+        Util.limparCampos(jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jCboNivel, jPwfSenha, jChbAtivo, jChbAutomatico);
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarActionPerformed
         // TODO add your handling code here:
-        
-        Usuario usuario = viewBean();
-        Usuario_DAO usuario_DAO = new Usuario_DAO();
-        
+        rccUsuario = viewBean();
+        //Usuario_DAO usuario_DAO = new Usuario_DAO();
+        //usuario_DAO.insert(viewBean());
         if (incluindo == true) {
-            usuario_DAO.insert(usuario);
-        }else {
-            usuario_DAO.update(usuario);
+            usuario_DAO.insert(viewBean());
+        } else {
+            usuario_DAO.update(viewBean());
         }
-               
-        //limparCampos();
-        //desabilitar();   CLASSE UTIL
+        
+        Util.habilitar(false, jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jPwfSenha, jCboNivel, jChbAtivo, jChbAutomatico, jBtnConfirmar, jBtnCancelar); //desabilitado
+        Util.habilitar(true, jBtnIncluir, jBtnAlterar, jBtnExcluir, jBtnPesquisar); //habilitado
+        
+        Util.limparCampos(jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jCboNivel, jPwfSenha, jChbAtivo, jChbAutomatico);
         
     }//GEN-LAST:event_jBtnConfirmarActionPerformed
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
         // TODO add your handling code here:
-        desabilitar();
-        limparCampos();
-        JOptionPane.showMessageDialog(null, "Ação cancelada.");
+        Util.habilitar(false, jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jPwfSenha, jCboNivel, jChbAtivo, jChbAutomatico, jBtnConfirmar, jBtnCancelar); //desabilitado
+        Util.habilitar(true, jBtnIncluir, jBtnAlterar, jBtnExcluir, jBtnPesquisar); //habilitado
+        
+        Util.limparCampos(jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jCboNivel, jPwfSenha, jChbAtivo, jChbAutomatico);
+        
+        Util.mensagem("Ação cancelada!");
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
-        habilitar();
+        Util.habilitar(true, jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jPwfSenha, jCboNivel, jChbAtivo, jBtnConfirmar, jBtnCancelar, jChbAutomatico);
+        Util.habilitar(false, jBtnIncluir, jBtnAlterar, jBtnExcluir, jBtnPesquisar); 
+
         incluindo = false;
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
@@ -408,16 +359,14 @@ public class JDlgUsuario extends javax.swing.JDialog {
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
         // TODO add your handling code here:
-        int resp = JOptionPane.showConfirmDialog(null, "Confirma a exclusão do produto?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (resp == JOptionPane.YES_OPTION) { //da tela para o bean, depois DAO e lá aciona o delete
-            Usuario usuario = viewBean(); //declarou um obj Bean que recebeu viewBean
-            Usuario_DAO usuario_DAO = new Usuario_DAO();
-            usuario_DAO.delete(usuario);
-            
+        if (Util.perguntar("Deseja excluir o registro?") == true) {
+            rccUsuario = viewBean(); //declarou um obj Bean que recebeu viewBean
+            usuario_DAO.delete(rccUsuario);
         }else {
-            JOptionPane.showMessageDialog(null, "Exclusão cancelada!", "Aviso", 2);
-        }     
-        //limparCampos(); CLASSE UTIL
+            Util.mensagem("Operação de exclusão cancelada!");
+        };
+     
+        Util.limparCampos(jTxtId_usuario, jTxtNome, jTxtApelido, jFmtCpf, jFmtNascimento, jCboNivel, jPwfSenha, jChbAtivo, jChbAutomatico);
     }//GEN-LAST:event_jBtnExcluirActionPerformed
 
     private void jBtnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarActionPerformed
@@ -452,6 +401,8 @@ public class JDlgUsuario extends javax.swing.JDialog {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(JDlgUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
@@ -497,7 +448,4 @@ public class JDlgUsuario extends javax.swing.JDialog {
     private javax.swing.JTextField jTxtUsuario1;
     // End of variables declaration//GEN-END:variables
 
-    void beanView(Venda venda) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

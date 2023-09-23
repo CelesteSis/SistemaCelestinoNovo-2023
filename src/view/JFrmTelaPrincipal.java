@@ -45,7 +45,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMnuSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMnuVenda = new javax.swing.JMenuItem();
+        jMnuVendas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 153, 255));
@@ -56,7 +56,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         jMenu.setForeground(new java.awt.Color(0, 0, 255));
         jMenu.setText("Cadastro");
 
-        jMnuUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuUsuario.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.ALT_MASK));
         jMnuUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/usuario-removebg-preview.png"))); // NOI18N
         jMnuUsuario.setText("Usuario");
         jMnuUsuario.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +66,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         });
         jMenu.add(jMnuUsuario);
 
-        jMnuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMnuCliente.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.ALT_MASK));
         jMnuCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/cliente.png"))); // NOI18N
         jMnuCliente.setText("Cliente");
         jMnuCliente.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +76,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         });
         jMenu.add(jMnuCliente);
 
-        jMnuProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuProduto.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK));
         jMnuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/produto-removebg-preview.png"))); // NOI18N
         jMnuProduto.setText("Produto");
         jMnuProduto.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +86,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         });
         jMenu.add(jMnuProduto);
 
-        jMnuVendedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        jMnuVendedor.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
         jMnuVendedor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/vendedor.png"))); // NOI18N
         jMnuVendedor.setText("Vendedor");
         jMnuVendedor.addActionListener(new java.awt.event.ActionListener() {
@@ -112,15 +112,15 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
         jMenu2.setForeground(new java.awt.Color(51, 51, 255));
         jMenu2.setText("Movimento");
 
-        jMnuVenda.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
-        jMnuVenda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/vendas-removebg-preview.png"))); // NOI18N
-        jMnuVenda.setText("Venda");
-        jMnuVenda.addActionListener(new java.awt.event.ActionListener() {
+        jMnuVendas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.ALT_MASK));
+        jMnuVendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/vendas-removebg-preview.png"))); // NOI18N
+        jMnuVendas.setText("Vendas");
+        jMnuVendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMnuVendaActionPerformed(evt);
+                jMnuVendasActionPerformed(evt);
             }
         });
-        jMenu2.add(jMnuVenda);
+        jMenu2.add(jMnuVendas);
 
         jMenuBar1.add(jMenu2);
 
@@ -148,27 +148,27 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
 
     private void jMnuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuUsuarioActionPerformed
         // TODO add your handling code here:
-        //JDlgUsuario jDlgUsuario = new JDlgUsuario(null, true);
-        //jDlgUsuario.setVisible(true);
+        JDlgUsuario jDlgUsuario = new JDlgUsuario(null, true);
+        jDlgUsuario.setVisible(true);
     }//GEN-LAST:event_jMnuUsuarioActionPerformed
 
     private void jMnuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuProdutoActionPerformed
         // TODO add your handling code here:
-        //JDlgProduto jDlgProduto = new JDlgProduto(null, true);
-        //jDlgProduto.setVisible(true);
+//        JDlgProduto jDlgProduto = new JDlgProduto(null, true);
+//        jDlgProduto.setVisible(true);
     }//GEN-LAST:event_jMnuProdutoActionPerformed
 
     private void jMnuVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVendedorActionPerformed
         // TODO add your handling code here:
-        //JDlgVendedor jDlgVendedor = new JDlgVendedor(null, true);
-        //jDlgVendedor.setVisible(true);
+//        JDlgVendedor jDlgVendedor = new JDlgVendedor(null, true);
+//        jDlgVendedor.setVisible(true);
     }//GEN-LAST:event_jMnuVendedorActionPerformed
 
-    private void jMnuVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVendaActionPerformed
+    private void jMnuVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVendasActionPerformed
         // TODO add your handling code here:
-        //JDlgVenda jDlgVenda = new JDlgVenda(null, true);
-        //jDlgVenda.setVisible(true);
-    }//GEN-LAST:event_jMnuVendaActionPerformed
+//        JDlgVenda jDlgVenda = new JDlgVenda(null, true);
+//        jDlgVenda.setVisible(true);
+    }//GEN-LAST:event_jMnuVendasActionPerformed
 
     private void jMnuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuSairActionPerformed
         // TODO add your handling code here:
@@ -220,7 +220,7 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMnuProduto;
     private javax.swing.JMenuItem jMnuSair;
     private javax.swing.JMenuItem jMnuUsuario;
-    private javax.swing.JMenuItem jMnuVenda;
+    private javax.swing.JMenuItem jMnuVendas;
     private javax.swing.JMenuItem jMnuVendedor;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
