@@ -142,8 +142,8 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
 
     private void jMnuClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuClienteActionPerformed
         // TODO add your handling code here:
-        //JDlgCliente jDlgCliente = new JDlgCliente(null, true);
-        //jDlgCliente.setVisible(true);
+        JDlgCliente jDlgCliente = new JDlgCliente(null, true);
+        jDlgCliente.setVisible(true);
     }//GEN-LAST:event_jMnuClienteActionPerformed
 
     private void jMnuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuUsuarioActionPerformed
@@ -154,20 +154,20 @@ public class JFrmTelaPrincipal extends javax.swing.JFrame {
 
     private void jMnuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuProdutoActionPerformed
         // TODO add your handling code here:
-//        JDlgProduto jDlgProduto = new JDlgProduto(null, true);
-//        jDlgProduto.setVisible(true);
+        JDlgProdutoNovo jDlgProdutoNovo = new JDlgProdutoNovo(null, true);
+        jDlgProdutoNovo.setVisible(true);
     }//GEN-LAST:event_jMnuProdutoActionPerformed
 
     private void jMnuVendedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVendedorActionPerformed
         // TODO add your handling code here:
-//        JDlgVendedor jDlgVendedor = new JDlgVendedor(null, true);
-//        jDlgVendedor.setVisible(true);
+        JDlgVendedorNovo jDlgVendedorNovo = new JDlgVendedorNovo(null, true);
+        jDlgVendedorNovo.setVisible(true);
     }//GEN-LAST:event_jMnuVendedorActionPerformed
 
     private void jMnuVendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuVendasActionPerformed
         // TODO add your handling code here:
-//        JDlgVenda jDlgVenda = new JDlgVenda(null, true);
-//        jDlgVenda.setVisible(true);
+        JDlgVenda jDlgVenda = new JDlgVenda(null, true);
+        jDlgVenda.setVisible(true);
     }//GEN-LAST:event_jMnuVendasActionPerformed
 
     private void jMnuSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMnuSairActionPerformed

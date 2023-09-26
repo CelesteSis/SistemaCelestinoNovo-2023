@@ -29,19 +29,20 @@ public class JDlgProdutoNovoIA extends javax.swing.JDialog {
         setSize(700, 450);
         produto_DAO = new Produto_DAO();
         
-        //titulo da tela
-        if (jDlgProdutoNovo.incluindo == true) {
-            setTitle("Cadastro de Produto");
-        }else {
-            setTitle("Alteração de Produto");
-        }
-        setLocationRelativeTo(null); 
+       
         
         //mostrar no View para alteração
         if (jDlgProdutoNovo.incluindo == false) {
             jDlgProdutoNovoIA.beanView(jDlgProdutoNovo.rccAlteracao);
         };
         
+         //titulo da tela
+        if (jDlgProdutoNovo.incluindo == true) {
+            setTitle("Cadastro de Produto");
+        }else {
+            setTitle("Alteração de Produto");
+        }
+        setLocationRelativeTo(null); 
     }
     
     public void automatico() { 
@@ -295,6 +296,7 @@ public class JDlgProdutoNovoIA extends javax.swing.JDialog {
         // TODO add your handling code here:
         rccProduto = viewBean();
         produto_DAO = new Produto_DAO();
+        
         
         if (jDlgProdutoNovo.incluindo == true) {
             produto_DAO.insert(rccProduto);

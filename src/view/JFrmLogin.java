@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -27,6 +28,7 @@ public class JFrmLogin extends javax.swing.JFrame {
     
     public int tentativas;
     private RccUsuario rccUsuario;
+    private Usuario_DAO usuario_DAO;
 
     /**
      * Creates new form JFrmLogin
@@ -35,35 +37,39 @@ public class JFrmLogin extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         getContentPane().setBackground(Color.getHSBColor(180, 204, 0x78));
-        
+        rccUsuario = new RccUsuario();
         
     }
     
     public ResultSet verificao(RccUsuario rccUsuario) {
-        String url, user, password;
-        url = "jdbc:mysql://10.7.0.51:33062/db_rebeca_celestino";
-        user = "rebeca_celestino";
-        password = "rebeca_celestino";
+
+        rccUsuario.setRccApelido(jTxtApelidoUser.getText());
         
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection cnt;
-            cnt = DriverManager.getConnection(url, user, password);
-            String sql = "Select * from usuario where apelido=? and senha=?"; //SENHA E USUARIOS corretos/no banco
-            
-            PreparedStatement pstm = cnt.prepareStatement(sql);
-                pstm.setString(1, usuario.getApelido());
-                pstm.setString(2, usuario.getSenha());
-                ResultSet rs = pstm.executeQuery();
-                return rs;
-                              
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Usuario_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuario_DAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return null;
+        rccUsuario = new RccUsuario();
+        usuario_DAO = new Usuario_DAO();
+        List lista = usuario_DAO.list(WIDTH) //peguei o list do DAO
+        usuarioControle.setList(lista);
+        jTable1.setModel(usuarioControle); 
+
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            Connection cnt;
+//            cnt = DriverManager.getConnection(url, user, password);
+//            String sql = "Select * from usuario where apelido=? and senha=?"; //SENHA E USUARIOS corretos/no banco
+//            
+//            PreparedStatement pstm = cnt.prepareStatement(sql);
+//                pstm.setString(1, usuario.getApelido());
+//                pstm.setString(2, usuario.getSenha());
+//                ResultSet rs = pstm.executeQuery();
+//                return rs;
+//                              
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(Usuario_DAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(Usuario_DAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        return null;
         
     };
     
@@ -264,7 +270,7 @@ private void logar() {
     if (tentativas < 3) {
             try {
             
-            RccUsuario rccUsuario = new RccUsuario();
+            rccUsuario = new RccUsuario();
             rccUsuario.setRccApelido(jTxtApelidoUser.getText());
             
             //Chamar o método para fazer a validação 

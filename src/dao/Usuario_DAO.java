@@ -46,7 +46,7 @@ public class Usuario_DAO extends DAO_Abstract{
     public Object list(int id) {
         session.beginTransaction(); 
         Criteria criteria = session.createCriteria(RccUsuario.class); //subistitui os comandos sql
-        criteria.add(Restrictions.eq("rccIdUsuario", id));// restringe a pesquisa ao objeto inform
+        criteria.add(Restrictions.eq("rccIdUsuario", id));// restringe a pesquisa ao objeto informado
         List lista = criteria.list();
         session.getTransaction().commit();
         return (Object) lista;
@@ -59,6 +59,19 @@ public class Usuario_DAO extends DAO_Abstract{
         List lista = criteria.list();
         session.getTransaction().commit();
         return (ArrayList) lista;
+    }
+    
+    public Object ValidaLogin (String apelidoUser, String senhaUser) {
+        session.beginTransaction(); 
+        Criteria criteria = session.createCriteria(RccUsuario.class);
+        criteria.add(Restrictions.eq("rccApelido", apelidoUser));
+        
+        Criteria criteria1 = session.createCriteria(RccUsuario.class); 
+        criteria1.add(Restrictions.eq("rccSenha", senhaUser));
+        List lista = criteria.list();
+        session.getTransaction().commit();
+        return (Object) lista;
+        
     }
     
 }

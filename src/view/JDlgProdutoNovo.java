@@ -8,6 +8,7 @@ package view;
 import bean.RccProduto;
 import bean.ProdutoController;
 import dao.Produto_DAO;
+import java.util.List;
 import tools.Util;
 
 /**
@@ -32,6 +33,13 @@ public class JDlgProdutoNovo extends javax.swing.JDialog {
         setSize(700, 450);
         setTitle("Produtos");
         setLocationRelativeTo(null);
+        
+        //pegar a lista do DAO para colocar na Table
+        produtoController = new ProdutoController();
+        produto_DAO = new Produto_DAO(); // criei o DAO
+        List lista = produto_DAO.listALL(); //peguei o list do DAO
+        produtoController.setList(lista);
+        jTable1.setModel(produtoController);
     }
 
     /**
@@ -135,14 +143,14 @@ public class JDlgProdutoNovo extends javax.swing.JDialog {
 
     private void jBtnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarActionPerformed
         // TODO add your handling code here:
-        incluindo = false;
-        
-        int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
-        rccAlteracao = produtoController.getBean(rowSel);
-
-        JDlgProdutoNovoIA jDlgProdutoNovoIA = new JDlgProdutoNovoIA(null,true);
-        jDlgProdutoNovoIA.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o jDlgVendedorNovo!
-        jDlgProdutoNovoIA.setVisible(true);
+//        incluindo = false;
+//        
+//        int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
+//        rccAlteracao = produtoController.getBean(rowSel);
+//
+//        JDlgProdutoNovoIA jDlgProdutoNovoIA = new JDlgProdutoNovoIA(null,true);
+//        jDlgProdutoNovoIA.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o jDlgVendedorNovo!
+//        jDlgProdutoNovoIA.setVisible(true);
         
     }//GEN-LAST:event_jBtnAlterarActionPerformed
 
@@ -153,6 +161,9 @@ public class JDlgProdutoNovo extends javax.swing.JDialog {
         JDlgProdutoNovoIA jDlgProdutoNovoIA = new JDlgProdutoNovoIA(null,true);
         jDlgProdutoNovoIA.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o jDlgVendedorNovo!
         jDlgProdutoNovoIA.setVisible(true);
+        
+        List lista = produto_DAO.listALL(); //atualizando
+        produtoController.setList(lista);
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed

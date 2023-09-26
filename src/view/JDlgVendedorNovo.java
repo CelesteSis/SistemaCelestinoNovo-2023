@@ -8,6 +8,7 @@ package view;
 import bean.RccVendedor;
 import bean.VendedorController;
 import dao.Vendedor_DAO;
+import java.util.List;
 import tools.Util;
 
 /**
@@ -32,6 +33,13 @@ public class JDlgVendedorNovo extends javax.swing.JDialog {
         setSize(700, 450);
         setTitle("Vendedores");
         setLocationRelativeTo(null);
+        
+        //pegar a lista do DAO para colocar na Table
+        vendedorController = new VendedorController();
+        vendedor_DAO = new Vendedor_DAO(); // criei o DAO
+        List lista = vendedor_DAO.listALL(); //peguei o list do DAO
+        vendedorController.setList(lista);
+        jTable1.setModel(vendedorController);
     }
 
     /**
@@ -142,9 +150,13 @@ public class JDlgVendedorNovo extends javax.swing.JDialog {
     private void jBtnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirActionPerformed
         // TODO add your handling code here:
         incluindo = true;
+        
         JDlgVendedorNovoIA jDlgVendedorNovoIA = new JDlgVendedorNovoIA(null,true);
         jDlgVendedorNovoIA.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o jDlgVendedorNovo!
         jDlgVendedorNovoIA.setVisible(true);
+        
+        List lista = vendedor_DAO.listALL(); //atualizando
+        vendedorController.setList(lista);
     }//GEN-LAST:event_jBtnIncluirActionPerformed
 
     private void jBtnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirActionPerformed
