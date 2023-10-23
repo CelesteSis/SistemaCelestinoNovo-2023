@@ -17,6 +17,7 @@ public class UsuarioControle extends AbstractTableModel{ //modelo de tabela abst
 
     public void setList(List lista) {
     this.lista = lista;
+    this.fireTableDataChanged();
     };
     
     public RccUsuario getBean(int linha) { //aciona o bean para saber a posição de acordo com a linha na lista
