@@ -43,13 +43,13 @@ public class JFrmLogin extends javax.swing.JFrame {
     
     public ResultSet verificao(RccUsuario rccUsuario) {
 
-        rccUsuario.setRccApelido(jTxtApelidoUser.getText());
-        
-        rccUsuario = new RccUsuario();
-        usuario_DAO = new Usuario_DAO();
-        List lista = usuario_DAO.list(WIDTH) //peguei o list do DAO
-        usuarioControle.setList(lista);
-        jTable1.setModel(usuarioControle); 
+//        rccUsuario.setRccApelido(jTxtApelidoUser.getText());
+//        
+//        rccUsuario = new RccUsuario();
+//        usuario_DAO = new Usuario_DAO();
+//        List lista = usuario_DAO.list(WIDTH) //peguei o list do DAO
+//        usuarioControle.setList(lista);
+//        jTable1.setModel(usuarioControle); 
 
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -69,7 +69,7 @@ public class JFrmLogin extends javax.swing.JFrame {
 //            Logger.getLogger(Usuario_DAO.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //        
-//        return null;
+        return null;
         
     };
     

@@ -26,12 +26,12 @@ import tools.Util;
  *
  * @author art16
  */
-public class JDlgVenda extends javax.swing.JDialog {
+public class JDlgPedido extends javax.swing.JDialog {
     
     public boolean incluindo; //variavel boolean para diferenciar o tipo de inclusão
-    MaskFormatter mascaraDataVenda;
+    MaskFormatter mascaraDataPedido;
     
-    private RccVenda rccVenda;
+    private RccVenda rccPedido;
     private RccVendaProduto rccVendaProduto;
     private JDlgVendaProduto jDlgVendaProduto;
     private JDlgVendaPesquisa jDlgVendaPesquisa;
@@ -44,10 +44,10 @@ public class JDlgVenda extends javax.swing.JDialog {
     /**
      * Creates new form JDlgVenda
      */
-    public JDlgVenda(java.awt.Frame parent, boolean modal) {
+    public JDlgPedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         setSize(700, 600);
         setTitle("Vendas");
@@ -71,13 +71,13 @@ public class JDlgVenda extends javax.swing.JDialog {
         
         
         try { //fechar a instrução com o Try Catch
-            mascaraDataVenda = new MaskFormatter("##/##/####"); //("##/##/####")
+            mascaraDataPedido = new MaskFormatter("##/##/####"); //("##/##/####")
             
         } catch (ParseException ex) { 
-            Logger.getLogger(JDlgVenda.class.getName()).log(Level. SEVERE, null, ex); 
+            Logger.getLogger(JDlgPedido.class.getName()).log(Level. SEVERE, null, ex); 
         }
         
-        jFmtData_venda.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
+        jFmtData_pedido.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
         
         //pegar a lista do DAO para colocar na Table
         
@@ -92,16 +92,16 @@ public class JDlgVenda extends javax.swing.JDialog {
     }
     
     public void automatico() {
-    jTxtId_venda.setEnabled(false);
+    jTxtId_pedido.setEnabled(false);
     };
     
     public RccVenda viewBean() { //método para pegar da tela e jogar no bean
         rccVenda = new RccVenda(); //criando o bean
         
-        int id = Util.strInt(jTxtId_venda.getText());
+        int id = Util.strInt(jTxtId_pedido.getText());
         rccVenda.setRccIdVenda(id);
         
-        rccVenda.setRccDataVenda(Util.strDate(jFmtData_venda.getText()));
+        rccVenda.setRccDataVenda(Util.strDate(jFmtData_pedido.getText()));
         rccVenda.setRccFrete(Util.strDouble(jTxtFrete.getText()));
         rccVenda.setRccValorTotal(Util.strDouble(jTxtValor_total.getText()));
         rccVenda.setRccDescricaoItens(jTxtDescricao_itens.getText());
@@ -119,9 +119,9 @@ public class JDlgVenda extends javax.swing.JDialog {
     public void beanView(RccVenda rccVenda) { //do banco para a tela
         
         String valor = Util.intStr(rccVenda.getRccIdVenda()); //converte int para string (pelo Text)
-        jTxtId_venda.setText(valor);
+        jTxtId_pedido.setText(valor);
         
-        jFmtData_venda.setText(Util.dateStr(rccVenda.getRccDataVenda()));
+        jFmtData_pedido.setText(Util.dateStr(rccVenda.getRccDataVenda()));
         jTxtFrete.setText(String.valueOf(rccVenda.getRccFrete()));
         jTxtValor_total.setText(Util.doubleStr(rccVenda.getRccValorTotal()));
         jTxtDescricao_itens.setText(rccVenda.getRccDescricaoItens());
@@ -153,24 +153,17 @@ public class JDlgVenda extends javax.swing.JDialog {
         jBtnIncluirVd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTxtId_venda = new javax.swing.JTextField();
+        jTxtId_pedido = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jFmtData_venda = new javax.swing.JFormattedTextField();
-        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTxtFrete = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jTxtValor_total = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
-        jTxtDescricao_itens = new javax.swing.JTextField();
         jCboFk_cliente = new javax.swing.JComboBox<RccCliente>();
         jCboFk_vendedor = new javax.swing.JComboBox<RccVendedor>();
         jBtnIncluirVp = new javax.swing.JButton();
         jBtnAlterarVp = new javax.swing.JButton();
         jBtnExcluirVp = new javax.swing.JButton();
-        jChbAutomatico = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -270,19 +263,13 @@ public class JDlgVenda extends javax.swing.JDialog {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setText("ID Venda");
-
-        jLabel2.setText("Data da Venda");
+        jLabel1.setText("ID Pedido");
 
         jLabel4.setText("Cliente");
 
         jLabel5.setText("Vendedor");
 
-        jLabel6.setText("Frete");
-
         jLabel7.setText("Valor Total");
-
-        jLabel8.setText("Descrição de Itens");
 
         jBtnIncluirVp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/inserir-removebg-preview.png"))); // NOI18N
         jBtnIncluirVp.addActionListener(new java.awt.event.ActionListener() {
@@ -305,13 +292,6 @@ public class JDlgVenda extends javax.swing.JDialog {
             }
         });
 
-        jChbAutomatico.setText("Automatico");
-        jChbAutomatico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChbAutomaticoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -321,39 +301,24 @@ public class JDlgVenda extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(50, 50, 50)
-                                                .addComponent(jLabel8))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(119, 119, 119)
-                                                .addComponent(jLabel6))))
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTxtId_venda, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jChbAutomatico)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jFmtData_venda, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTxtFrete)
-                                .addGap(95, 95, 95)))
+                            .addComponent(jTxtId_pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtValor_total)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7)
-                                .addGap(410, 410, 410)
-                                .addComponent(jLabel5)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -361,87 +326,58 @@ public class JDlgVenda extends javax.swing.JDialog {
                             .addComponent(jBtnExcluirVp, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 17, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTxtDescricao_itens)
-                        .addGap(95, 95, 95)
-                        .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 17, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtId_venda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jChbAutomatico))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFmtData_venda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTxtFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(jLabel5)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7))
+                .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtDescricao_itens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jTxtId_pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jBtnIncluirVp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBtnAlterarVp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBtnExcluirVp)))
-                .addGap(34, 34, 34))
+                        .addComponent(jBtnExcluirVp))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jChbAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChbAutomaticoActionPerformed
-        // TODO add your handling code here:
-        automatico();
-    }//GEN-LAST:event_jChbAutomaticoActionPerformed
-
     private void jBtnIncluirVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirVdActionPerformed
         // TODO add your handling code here:
         incluindo = true;
         
-        Util.habilitar(true, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(true, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         
     }//GEN-LAST:event_jBtnIncluirVdActionPerformed
 
     private void jBtnCancelarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         
         Util.mensagem("Ação cancelada.");
     }//GEN-LAST:event_jBtnCancelarVdActionPerformed
@@ -450,14 +386,14 @@ public class JDlgVenda extends javax.swing.JDialog {
         // TODO add your handling code here:
         incluindo = false;
         
-        Util.habilitar(true, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(true, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
     }//GEN-LAST:event_jBtnAlterarVdActionPerformed
 
     private void jBtnConfirmarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
         
@@ -470,7 +406,7 @@ public class JDlgVenda extends javax.swing.JDialog {
             venda_DAO.update(rccVenda);
         }
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
     }//GEN-LAST:event_jBtnConfirmarVdActionPerformed
 
     private void jBtnExcluirVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirVdActionPerformed
@@ -482,7 +418,7 @@ public class JDlgVenda extends javax.swing.JDialog {
             Util.mensagem("Operação de exclusão cancelada!");
         };
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
     }//GEN-LAST:event_jBtnExcluirVdActionPerformed
 
     private void jBtnPesquisarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarVdActionPerformed
@@ -543,21 +479,23 @@ public class JDlgVenda extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JDlgVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDlgPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JDlgVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDlgPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JDlgVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDlgPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JDlgVenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JDlgPedido.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JDlgVenda dialog = new JDlgVenda(new javax.swing.JFrame(), true);
+                JDlgPedido dialog = new JDlgPedido(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -581,21 +519,14 @@ public class JDlgVenda extends javax.swing.JDialog {
     private javax.swing.JButton jBtnPesquisarVd;
     private javax.swing.JComboBox<RccCliente> jCboFk_cliente;
     private javax.swing.JComboBox<RccVendedor> jCboFk_vendedor;
-    private javax.swing.JCheckBox jChbAutomatico;
-    private javax.swing.JFormattedTextField jFmtData_venda;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTxtDescricao_itens;
-    private javax.swing.JTextField jTxtFrete;
-    private javax.swing.JTextField jTxtId_venda;
+    private javax.swing.JTextField jTxtId_pedido;
     private javax.swing.JTextField jTxtValor_total;
     // End of variables declaration//GEN-END:variables
 }
