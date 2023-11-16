@@ -9,6 +9,7 @@ import bean.RccProduto;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -61,4 +62,41 @@ public class Produto_DAO extends DAO_Abstract{
         return (ArrayList) lista;
     }
     
+    public List listNomeProduto(String nomeProduto) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccProduto.class); 
+        criteria.add(Restrictions.ilike("rccNomeProduto", nomeProduto, MatchMode.ANYWHERE));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listPrecoMaior(Double preco) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccProduto.class); 
+        criteria.add(Restrictions.ge("rccPreco", preco));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listPrecoMenor(Double preco) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccProduto.class); 
+        criteria.add(Restrictions.le("rccPreco", preco));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listNomeProdutoPreco(String nomeProduto, Double precoMaior, Double precoMenor) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccProduto.class); 
+        criteria.add(Restrictions.ilike("rccNomeProduto", nomeProduto, MatchMode.ANYWHERE));
+        criteria.add(Restrictions.ge("rccPreco", precoMaior));
+        criteria.add(Restrictions.le("rccPreco", precoMenor));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
 }

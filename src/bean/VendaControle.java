@@ -41,7 +41,7 @@ public class VendaControle extends AbstractTableModel{
             return rccVenda.getRccIdVenda();
         }
         if (columnIndex == 1) {
-            return rccVenda.getRccIdVenda();
+            return rccVenda.getRccDataVenda();
         }
         if (columnIndex == 2) {
             return rccVenda.getRccValorTotal();

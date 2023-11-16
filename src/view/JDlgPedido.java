@@ -6,8 +6,8 @@
 package view;
 
 import bean.RccCliente;
-import bean.RccVenda;
-import bean.RccVendaProduto;
+import bean.RccPedido;
+import bean.RccPedidoProduto;
 import bean.VendaProdutoControle;
 import bean.RccVendedor;
 import dao.Cliente_DAO; //usado para lista da Fk_cliente
@@ -31,8 +31,8 @@ public class JDlgPedido extends javax.swing.JDialog {
     public boolean incluindo; //variavel boolean para diferenciar o tipo de inclusão
     MaskFormatter mascaraDataPedido;
     
-    private RccVenda rccPedido;
-    private RccVendaProduto rccVendaProduto;
+    private RccPedido rccPedido;
+    //private RccVendaProduto rccVendaProduto;
     private JDlgVendaProduto jDlgVendaProduto;
     private JDlgVendaPesquisa jDlgVendaPesquisa;
     private VendaProdutoControle vendaProdutoControle;
@@ -47,7 +47,7 @@ public class JDlgPedido extends javax.swing.JDialog {
     public JDlgPedido(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        //Util.habilitar(false, jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         setSize(700, 600);
         setTitle("Vendas");
@@ -77,7 +77,7 @@ public class JDlgPedido extends javax.swing.JDialog {
             Logger.getLogger(JDlgPedido.class.getName()).log(Level. SEVERE, null, ex); 
         }
         
-        jFmtData_pedido.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
+        //jFmtData_pedido.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
         
         //pegar a lista do DAO para colocar na Table
         
@@ -92,48 +92,48 @@ public class JDlgPedido extends javax.swing.JDialog {
     }
     
     public void automatico() {
-    jTxtId_pedido.setEnabled(false);
+    jTxtData.setEnabled(false);
     };
     
-    public RccVenda viewBean() { //método para pegar da tela e jogar no bean
-        rccVenda = new RccVenda(); //criando o bean
-        
-        int id = Util.strInt(jTxtId_pedido.getText());
-        rccVenda.setRccIdVenda(id);
-        
-        rccVenda.setRccDataVenda(Util.strDate(jFmtData_pedido.getText()));
-        rccVenda.setRccFrete(Util.strDouble(jTxtFrete.getText()));
-        rccVenda.setRccValorTotal(Util.strDouble(jTxtValor_total.getText()));
-        rccVenda.setRccDescricaoItens(jTxtDescricao_itens.getText());
-        
-        //Para gravar apenas o numero do ID e não o bean da Cbo inteiro
-        RccCliente rccCliente1 = (RccCliente) jCboFk_cliente.getSelectedItem(); //pega o item selecionado
-        rccVenda.setRccFkCliente(rccCliente1.getRccIdCliente()); //e grava só a chave no BD
-        
-        RccVendedor rccVendedor1 = (RccVendedor) jCboFk_vendedor.getSelectedItem(); //pega o item selecionado
-        rccVenda.setRccFkVendedor(rccVendedor1.getRccIdVendedor()); //e grava só a chave no BD   
-        
-        return rccVenda;
-    };
-    
-    public void beanView(RccVenda rccVenda) { //do banco para a tela
-        
-        String valor = Util.intStr(rccVenda.getRccIdVenda()); //converte int para string (pelo Text)
-        jTxtId_pedido.setText(valor);
-        
-        jFmtData_pedido.setText(Util.dateStr(rccVenda.getRccDataVenda()));
-        jTxtFrete.setText(String.valueOf(rccVenda.getRccFrete()));
-        jTxtValor_total.setText(Util.doubleStr(rccVenda.getRccValorTotal()));
-        jTxtDescricao_itens.setText(rccVenda.getRccDescricaoItens());
-        
-        int id_cliente = rccVenda.getRccFkCliente();//trazer do BD o ID da PK
-        cliente_DAO = new Cliente_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
-        jCboFk_cliente.setSelectedItem(cliente_DAO.list(id_cliente)); //passei o ID para o list e ele retorna um bean para a Cbo
-        
-        int id_vendedor = rccVenda.getRccFkVendedor(); //trazer do BD o ID da PK
-        vendedor_DAO = new Vendedor_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
-        jCboFk_vendedor.setSelectedItem(vendedor_DAO.list(id_vendedor)); //passei o ID para o list e ele retorna um bean para a Cbo
-    };
+//    public RccVenda viewBean() { //método para pegar da tela e jogar no bean
+//        rccVenda = new RccVenda(); //criando o bean
+//        
+//        int id = Util.strInt(jTxtData.getText());
+//        rccVenda.setRccIdVenda(id);
+//        
+//        rccVenda.setRccDataVenda(Util.strDate(jFmtData_pedido.getText()));
+//        rccVenda.setRccFrete(Util.strDouble(jTxtFrete.getText()));
+//        rccVenda.setRccValorTotal(Util.strDouble(jTxtValor_total.getText()));
+//        rccVenda.setRccDescricaoItens(jTxtDescricao_itens.getText());
+//        
+//        //Para gravar apenas o numero do ID e não o bean da Cbo inteiro
+//        RccCliente rccCliente1 = (RccCliente) jCboFk_cliente.getSelectedItem(); //pega o item selecionado
+//        rccVenda.setRccFkCliente(rccCliente1.getRccIdCliente()); //e grava só a chave no BD
+//        
+//        RccVendedor rccVendedor1 = (RccVendedor) jCboFk_vendedor.getSelectedItem(); //pega o item selecionado
+//        rccVenda.setRccFkVendedor(rccVendedor1.getRccIdVendedor()); //e grava só a chave no BD   
+//        
+//        return rccVenda;
+//    };
+//    
+//    public void beanView(RccVenda rccVenda) { //do banco para a tela
+//        
+//        String valor = Util.intStr(rccVenda.getRccIdVenda()); //converte int para string (pelo Text)
+//        jTxtData.setText(valor);
+//        
+//        jFmtData_pedido.setText(Util.dateStr(rccVenda.getRccDataVenda()));
+//        jTxtFrete.setText(String.valueOf(rccVenda.getRccFrete()));
+//        jTxtValor_total.setText(Util.doubleStr(rccVenda.getRccValorTotal()));
+//        jTxtDescricao_itens.setText(rccVenda.getRccDescricaoItens());
+//        
+//        int id_cliente = rccVenda.getRccFkCliente();//trazer do BD o ID da PK
+//        cliente_DAO = new Cliente_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
+//        jCboFk_cliente.setSelectedItem(cliente_DAO.list(id_cliente)); //passei o ID para o list e ele retorna um bean para a Cbo
+//        
+//        int id_vendedor = rccVenda.getRccFkVendedor(); //trazer do BD o ID da PK
+//        vendedor_DAO = new Vendedor_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
+//        jCboFk_vendedor.setSelectedItem(vendedor_DAO.list(id_vendedor)); //passei o ID para o list e ele retorna um bean para a Cbo
+//    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -153,7 +153,7 @@ public class JDlgPedido extends javax.swing.JDialog {
         jBtnIncluirVd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jTxtId_pedido = new javax.swing.JTextField();
+        jTxtData = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -164,6 +164,8 @@ public class JDlgPedido extends javax.swing.JDialog {
         jBtnIncluirVp = new javax.swing.JButton();
         jBtnAlterarVp = new javax.swing.JButton();
         jBtnExcluirVp = new javax.swing.JButton();
+        jTxtId_pedido1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -271,6 +273,12 @@ public class JDlgPedido extends javax.swing.JDialog {
 
         jLabel7.setText("Valor Total");
 
+        jCboFk_cliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCboFk_clienteActionPerformed(evt);
+            }
+        });
+
         jBtnIncluirVp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/inserir-removebg-preview.png"))); // NOI18N
         jBtnIncluirVp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -292,6 +300,8 @@ public class JDlgPedido extends javax.swing.JDialog {
             }
         });
 
+        jLabel2.setText("Data");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -301,22 +311,24 @@ public class JDlgPedido extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtId_pedido, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTxtId_pedido1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTxtValor_total)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jTxtData, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel7)
+                            .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -336,14 +348,16 @@ public class JDlgPedido extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel5))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTxtId_pedido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCboFk_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCboFk_vendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTxtValor_total, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTxtId_pedido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -365,19 +379,19 @@ public class JDlgPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
         incluindo = true;
         
-        Util.habilitar(true, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        //Util.habilitar(true, jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        //Util.limparCampos(jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         
     }//GEN-LAST:event_jBtnIncluirVdActionPerformed
 
     private void jBtnCancelarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        //Util.habilitar(false, jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        //Util.limparCampos(jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         
         Util.mensagem("Ação cancelada.");
     }//GEN-LAST:event_jBtnCancelarVdActionPerformed
@@ -386,45 +400,45 @@ public class JDlgPedido extends javax.swing.JDialog {
         // TODO add your handling code here:
         incluindo = false;
         
-        Util.habilitar(true, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        //Util.habilitar(true, jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
     }//GEN-LAST:event_jBtnAlterarVdActionPerformed
 
     private void jBtnConfirmarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        //Util.habilitar(false, jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
         
-        rccVenda = viewBean();
-        venda_DAO = new Venda_DAO();
-        
-        if (incluindo == true) {
-            venda_DAO.insert(rccVenda);
-        }else {
-            venda_DAO.update(rccVenda);
-        }
-        
-        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+//        rccVenda = viewBean();
+//        venda_DAO = new Venda_DAO();
+//        
+//        if (incluindo == true) {
+//            venda_DAO.insert(rccVenda);
+//        }else {
+//            venda_DAO.update(rccVenda);
+//        }
+//        
+//        Util.limparCampos(jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
     }//GEN-LAST:event_jBtnConfirmarVdActionPerformed
 
     private void jBtnExcluirVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirVdActionPerformed
         // TODO add your handling code here:
-        if (Util.perguntar("Deseja excluir o registro?") == true) {
-            rccVenda = viewBean(); //declarou um obj Bean que recebeu viewBean
-            venda_DAO.delete(rccVenda);
-        }else {
-            Util.mensagem("Operação de exclusão cancelada!");
-        };
-        
-        Util.limparCampos(jTxtId_pedido, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+//        if (Util.perguntar("Deseja excluir o registro?") == true) {
+//            rccVenda = viewBean(); //declarou um obj Bean que recebeu viewBean
+//            venda_DAO.delete(rccVenda);
+//        }else {
+//            Util.mensagem("Operação de exclusão cancelada!");
+//        };
+//        
+//        Util.limparCampos(jTxtData, jChbAutomatico, jFmtData_pedido, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
     }//GEN-LAST:event_jBtnExcluirVdActionPerformed
 
     private void jBtnPesquisarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarVdActionPerformed
         // TODO add your handling code here:
         jDlgVendaPesquisa = new JDlgVendaPesquisa(null, true);
-        jDlgVendaPesquisa.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVenda!
+        //jDlgVendaPesquisa.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVenda!
         jDlgVendaPesquisa.setVisible(true);
     }//GEN-LAST:event_jBtnPesquisarVdActionPerformed
 
@@ -433,22 +447,22 @@ public class JDlgPedido extends javax.swing.JDialog {
         incluindo = true;
         
         jDlgVendaProduto = new JDlgVendaProduto(null, true);
-        jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVenda!
+        //jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVenda!
         jDlgVendaProduto.setVisible(true);
 
     }//GEN-LAST:event_jBtnIncluirVpActionPerformed
 
     private void jBtnExcluirVpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirVpActionPerformed
         // TODO add your handling code here:
-        int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
-        
-        if (Util.perguntar("Deseja excluir o registro?") == true) {
-            rccVendaProduto = vendaProdutoControle.getBean(rowSel);
-            vendedor_DAO.delete(rccVendaProduto);
-
-        }else {
-            Util.mensagem("Operação de exclusão cancelada!");
-        };
+//        int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
+//        
+//        if (Util.perguntar("Deseja excluir o registro?") == true) {
+//            rccVendaProduto = vendaProdutoControle.getBean(rowSel);
+//            vendedor_DAO.delete(rccVendaProduto);
+//
+//        }else {
+//            Util.mensagem("Operação de exclusão cancelada!");
+//        };
 
     }//GEN-LAST:event_jBtnExcluirVpActionPerformed
 
@@ -457,10 +471,14 @@ public class JDlgPedido extends javax.swing.JDialog {
         incluindo = false;
         
         jDlgVendaProduto = new JDlgVendaProduto(null, true);
-        jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVendaProduto!
+        //jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVendaProduto!
         jDlgVendaProduto.setVisible(true);
 
     }//GEN-LAST:event_jBtnAlterarVpActionPerformed
+
+    private void jCboFk_clienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCboFk_clienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCboFk_clienteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -520,13 +538,15 @@ public class JDlgPedido extends javax.swing.JDialog {
     private javax.swing.JComboBox<RccCliente> jCboFk_cliente;
     private javax.swing.JComboBox<RccVendedor> jCboFk_vendedor;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTxtId_pedido;
+    private javax.swing.JTextField jTxtData;
+    private javax.swing.JTextField jTxtId_pedido1;
     private javax.swing.JTextField jTxtValor_total;
     // End of variables declaration//GEN-END:variables
 }

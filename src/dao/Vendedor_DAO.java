@@ -9,6 +9,7 @@ import bean.RccVendedor;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -59,6 +60,44 @@ public class Vendedor_DAO extends DAO_Abstract{
         List lista = criteria.list();
         session.getTransaction().commit();
         return (ArrayList) lista;
+    }
+    
+    public List listNome(String nome) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccVendedor.class); 
+        criteria.add(Restrictions.ilike("rccNome", nome, MatchMode.ANYWHERE));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listSalarioMaior(Double salario) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccVendedor.class); 
+        criteria.add(Restrictions.ge("rccSalario", salario));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listSalarioMenor(Double salario) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccVendedor.class); 
+        criteria.add(Restrictions.le("rccSalario", salario));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listNomeSalario(String nome, Double salarioMaior, Double salarioMenor) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccVendedor.class); 
+        criteria.add(Restrictions.ilike("rccNome", nome, MatchMode.ANYWHERE));
+        criteria.add(Restrictions.ge("rccSalario", salarioMaior));
+        criteria.add(Restrictions.le("rccSalario", salarioMenor));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
     }
     
 }

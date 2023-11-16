@@ -9,7 +9,6 @@ import bean.RccUsuario;
 import bean.UsuarioControle;
 import dao.Usuario_DAO;
 import java.util.List;
-import tools.Util;
 
 /**
  *
@@ -142,27 +141,25 @@ public class JDlgConsultaUsuario extends javax.swing.JDialog {
 
     private void jBtnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConsultaActionPerformed
         // TODO add your handling code here:
-        //se cpf e nome NÃO estiverem em branco:
-        if(! jTxtconsultaNome.getText().equals("") && ! jTxtconsultaCpf.getText().equals("")) { //chamar a pesquisa de dois
-            List lista = usuario_DAO.listNomeCpf(jTxtconsultaNome.getText(), jTxtconsultaCpf.getText()); 
+        //se cpf e nome estiverem em branco:
+        if(jTxtconsultaNome.getText().equals("") && jTxtconsultaCpf.getText().equals("")) { //se os campos forem vazios
+            List lista = usuario_DAO.listALL(); 
             usuarioControle.setList(lista);
-        }else { //caso estejam vazios
-            if(jTxtconsultaNome.getText().equals("") && jTxtconsultaCpf.getText().equals("")) { //chamar a pesquisa de dois
-            List lista = usuario_DAO.listNomeCpf(jTxtconsultaNome.getText(), jTxtconsultaCpf.getText()); 
-            usuarioControle.setList(lista);
-            }else {
-                if (! jTxtconsultaNome.getText().equals("")) {
-                List lista = usuario_DAO.listNome(jTxtconsultaNome.getText());
-                //jogando na table
+        }else { //caso NÃO estejam vazios
+                if(!jTxtconsultaNome.getText().equals("") && !jTxtconsultaCpf.getText().equals("")) { 
+                List lista = usuario_DAO.listNomeCpf(jTxtconsultaNome.getText(), jTxtconsultaCpf.getText()); 
                 usuarioControle.setList(lista);
-                }
-                
-                if (! jTxtconsultaCpf.getText().equals("")){
-                List lista = usuario_DAO.listNome(jTxtconsultaCpf.getText());
-                //jogando na table
-                usuarioControle.setList(lista);
-            }
-            }  
+                }else {
+                    if (!jTxtconsultaNome.getText().equals("")) {
+                    List lista = usuario_DAO.listNome(jTxtconsultaNome.getText());
+                    usuarioControle.setList(lista);
+                    }else {
+                        if (!jTxtconsultaCpf.getText().equals("")){
+                        List lista = usuario_DAO.listCpf(jTxtconsultaCpf.getText());
+                        usuarioControle.setList(lista);
+                        }
+                    }
+                }  
             }
             
         

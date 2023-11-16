@@ -74,7 +74,7 @@ public class Usuario_DAO extends DAO_Abstract{
     public List listCpf(String cpf) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccUsuario.class); 
-        criteria.add(Restrictions.ilike("rccCpf", "%"+ cpf +"%"));
+        criteria.add(Restrictions.ilike("rccCpf", cpf, MatchMode.ANYWHERE));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;
@@ -84,7 +84,7 @@ public class Usuario_DAO extends DAO_Abstract{
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccUsuario.class); 
         criteria.add(Restrictions.ilike("rccNome", nome, MatchMode.ANYWHERE));
-        criteria.add(Restrictions.ilike("rccCpf", "%"+ cpf +"%"));
+        criteria.add(Restrictions.ilike("rccCpf", cpf, MatchMode.ANYWHERE));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;

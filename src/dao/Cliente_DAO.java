@@ -9,6 +9,7 @@ import bean.RccCliente;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -59,6 +60,34 @@ public class Cliente_DAO extends DAO_Abstract{
         List lista = criteria.list();
         session.getTransaction().commit();
         return (ArrayList) lista;
+    }
+    
+    public List listNome(String nome) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccCliente.class); 
+        criteria.add(Restrictions.ilike("rccNome", nome, MatchMode.ANYWHERE));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listCpf(String cpf) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccCliente.class); 
+        criteria.add(Restrictions.ilike("rccCpf", cpf, MatchMode.ANYWHERE));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
+    
+    public List listNomeCpf(String nome, String cpf) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccCliente.class); 
+        criteria.add(Restrictions.ilike("rccNome", nome, MatchMode.ANYWHERE));
+        criteria.add(Restrictions.ilike("rccCpf", cpf, MatchMode.ANYWHERE));
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
     }
     
 }
