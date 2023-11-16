@@ -80,8 +80,6 @@ public class JDlgVenda extends javax.swing.JDialog {
         jFmtData_venda.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
         
         //pegar a lista do DAO para colocar na Table
-        
-        
         List lista = venda_produto_DAO.listALL(); //peguei o list do DAO
         vendaProdutoControle.setList(lista);
         jTable1.setModel(vendaProdutoControle); 

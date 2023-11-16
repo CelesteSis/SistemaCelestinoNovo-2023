@@ -232,8 +232,21 @@ public class RccCliente  implements java.io.Serializable {
     public void setRccConfirmeSenha(String rccConfirmeSenha) {
         this.rccConfirmeSenha = rccConfirmeSenha;
     }
-
-
+    
+     @Override
+    public String toString() {
+        return getRccNome();
+    }
+    
+    public boolean equals(Object object) { //o equals recebe um object
+        if (object instanceof RccCliente) { //esse object é um cliente
+            RccCliente rccCliente = (RccCliente) object; //esse Cliente é o mesmo do método beanView
+            if (this.getRccIdCliente() == rccCliente.getRccIdCliente()) { //this => jCbo == cliente => que esta sendo passado
+                return true;
+            }
+        }
+        return false;
+    };
 
 
 }

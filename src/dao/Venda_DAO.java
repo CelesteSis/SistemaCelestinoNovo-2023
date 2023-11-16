@@ -65,7 +65,7 @@ public class Venda_DAO extends DAO_Abstract{
     public List listDataVenda(Date dataVenda) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccVenda.class); 
-        criteria.add(Restrictions.eq("rccDataVenda", dataVenda));
+        criteria.add(Restrictions.ge("rccDataVenda", dataVenda));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;

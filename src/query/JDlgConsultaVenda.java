@@ -39,8 +39,12 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
     public JDlgConsultaVenda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        limpeza();
         setTitle("Consulta de Venda");
         setLocationRelativeTo(null);
+        
+//        jCboFkCliente.setSelectedIndex(-1);
+//        jCboFkVendedor.setSelectedIndex(-1);
         
         rccVenda = new RccVenda();
         vendaControle = new VendaControle();
@@ -60,7 +64,7 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
         }
         
         try { //fechar a instrução com o Try Catch
-            mascaraDataVenda = new MaskFormatter("##/##/####"); //("##/##/####")
+            mascaraDataVenda = new MaskFormatter("##/##/####");
             
         } catch (ParseException ex) { 
             Logger.getLogger(JDlgConsultaVenda.class.getName()).log(Level. SEVERE, null, ex); 
@@ -74,6 +78,12 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
         vendaControle.setList(lista);
         jTable1.setModel(vendaControle); 
         
+    }
+    
+    public void limpeza() {
+        Util.limparCampos(jFmtDataVenda);
+        jCboFkCliente.setSelectedIndex(-1);
+        jCboFkVendedor.setSelectedIndex(-1);
     }
 
     /**
@@ -93,6 +103,7 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jFmtDataVenda = new javax.swing.JFormattedTextField();
+        jBtnLimpar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -113,6 +124,13 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
 
         jLabel3.setText("Vendedor:");
 
+        jBtnLimpar.setText("LIMPAR");
+        jBtnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnLimparActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -130,13 +148,12 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jCboFkVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addComponent(jBtnConsultar))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jCboFkVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jBtnConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,9 +168,14 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCboFkCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCboFkVendedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtnConsultar)
                     .addComponent(jFmtDataVenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46))
+                .addGap(48, 48, 48))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtnConsultar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtnLimpar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -221,6 +243,11 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
         
     }//GEN-LAST:event_jBtnConsultarActionPerformed
 
+    private void jBtnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnLimparActionPerformed
+        // TODO add your handling code here:
+        limpeza();
+    }//GEN-LAST:event_jBtnLimparActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -265,6 +292,7 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnConsultar;
+    private javax.swing.JButton jBtnLimpar;
     private javax.swing.JComboBox<RccCliente> jCboFkCliente;
     private javax.swing.JComboBox<RccVendedor> jCboFkVendedor;
     private javax.swing.JFormattedTextField jFmtDataVenda;

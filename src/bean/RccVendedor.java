@@ -114,6 +114,21 @@ public class RccVendedor  implements java.io.Serializable {
     public void setRccSalario(double rccSalario) {
         this.rccSalario = rccSalario;
     }
+    
+     @Override
+    public String toString() {
+        return getRccNome();
+    }
+    
+    public boolean equals(Object object) { //o equals recebe um object
+        if (object instanceof RccVendedor) { //esse object é um Vendedor
+            RccVendedor rccVendedor = (RccVendedor) object; //esse Vendedor é o mesmo do método beanView
+            if (this.getRccIdVendedor()== rccVendedor.getRccIdVendedor()) { //this => jCbo == vendedor => que esta sendo passado
+                return true;
+            }
+        }
+        return false;
+    };
 
 
 
