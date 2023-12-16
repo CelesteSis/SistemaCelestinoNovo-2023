@@ -171,7 +171,19 @@ public class RccProduto  implements java.io.Serializable {
         this.rccCor = rccCor;
     }
 
-
+    public String toString() {
+        return getRccNomeProduto();
+    }
+    
+    public boolean equals(Object object) { //o equals recebe um object
+        if (object instanceof RccProduto) { //esse object é um cliente
+            RccProduto rccProduto = (RccProduto) object; //esse Cliente é o mesmo do método beanView
+            if (this.getRccIdProduto() == rccProduto.getRccIdProduto()) { //this => jCbo == cliente => que esta sendo passado
+                return true;
+            }
+        }
+        return false;
+    };
 
 
 }

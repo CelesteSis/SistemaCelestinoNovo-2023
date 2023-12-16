@@ -5,6 +5,7 @@
  */
 package dao;
 
+import bean.RccVenda;
 import bean.RccVendaProduto;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,15 @@ import org.hibernate.criterion.Restrictions;
  * @author u07540852100
  */
 public class Venda_produto_DAO extends DAO_Abstract{
+    
+    public List listaPedido(RccVenda venda) {
+        session.beginTransaction();
+        Criteria criteria = session.createCriteria(RccVendaProduto.class); 
+        criteria.add(Restrictions.eq("rcc_venda", venda)); //aqui pode dar erro devido ao nome da tabela no bd
+        List result = criteria.list();
+        session.getTransaction().commit();
+        return result;
+    }
 
     @Override
     public void insert(Object object) {

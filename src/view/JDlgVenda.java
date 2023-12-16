@@ -10,6 +10,7 @@ import bean.RccVenda;
 import bean.RccVendaProduto;
 import bean.VendaProdutoControle;
 import bean.RccVendedor;
+import bean.VendaProdutoController;
 import dao.Cliente_DAO; //usado para lista da Fk_cliente
 import dao.Venda_DAO;
 import dao.Venda_produto_DAO;
@@ -40,6 +41,8 @@ public class JDlgVenda extends javax.swing.JDialog {
     private Vendedor_DAO vendedor_DAO;
     private Venda_produto_DAO venda_produto_DAO;
     private Venda_DAO venda_DAO;
+    
+    public VendaProdutoController vendaProdutoController;
 
     /**
      * Creates new form JDlgVenda
@@ -49,7 +52,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         initComponents();
         Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
-        setSize(700, 600);
+        setSize(720, 600);
         setTitle("Vendas");
         setLocationRelativeTo(null);
         
@@ -57,6 +60,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         vendedor_DAO = new Vendedor_DAO();
         vendaProdutoControle = new VendaProdutoControle();
         venda_produto_DAO = new Venda_produto_DAO();
+        vendaProdutoController = new VendaProdutoController();
         
         
         List listCliente = cliente_DAO.listALL();
@@ -132,6 +136,10 @@ public class JDlgVenda extends javax.swing.JDialog {
         vendedor_DAO = new Vendedor_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
         jCboFk_vendedor.setSelectedItem(vendedor_DAO.list(id_vendedor)); //passei o ID para o list e ele retorna um bean para a Cbo
     };
+    
+    public int getSelectedRowProd() {
+        return jTable1.getSelectedRow();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -269,7 +277,7 @@ public class JDlgVenda extends javax.swing.JDialog {
                 {null, null, null}
             },
             new String [] {
-                "Produto", "Quantidade", "Valor Uni."
+                "", "", ""
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -334,7 +342,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         jBtnIncluirVp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/inserir-removebg-preview.png"))); // NOI18N
-        jBtnIncluirVp.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jBtnIncluirVp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jBtnIncluirVp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnIncluirVpActionPerformed(evt);
@@ -342,6 +350,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         });
 
         jBtnAlterarVp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/editar-removebg-preview.png"))); // NOI18N
+        jBtnAlterarVp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jBtnAlterarVp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnAlterarVpActionPerformed(evt);
@@ -349,6 +358,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         });
 
         jBtnExcluirVp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens_certo/cancelar-removebg-preview.png"))); // NOI18N
+        jBtnExcluirVp.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jBtnExcluirVp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBtnExcluirVpActionPerformed(evt);
@@ -363,22 +373,20 @@ public class JDlgVenda extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jBtnAlterarVp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jBtnExcluirVp)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                    .addComponent(jBtnExcluirVp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnIncluirVp)
+                .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnAlterarVp)
+                .addComponent(jBtnAlterarVp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnExcluirVp)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jBtnExcluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(159, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
@@ -464,6 +472,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         incluindo = true;
         
         jDlgVendaProduto = new JDlgVendaProduto(null, true);
+        jDlgVendaProduto.setTitle("Inclusão de Produtos");
         jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVenda!
         jDlgVendaProduto.setVisible(true);
 
