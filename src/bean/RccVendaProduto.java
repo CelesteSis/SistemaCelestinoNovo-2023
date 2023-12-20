@@ -38,7 +38,7 @@ public class RccVendaProduto  implements java.io.Serializable {
    
      @Id @GeneratedValue(strategy=IDENTITY)
 
-    
+     
     @Column(name="rcc_id_venda_produto", unique=true, nullable=false)
     public int getRccIdVendaProduto() {
         return this.rccIdVendaProduto;

@@ -18,10 +18,10 @@ import org.hibernate.criterion.Restrictions;
  */
 public class Venda_produto_DAO extends DAO_Abstract{
     
-    public List listaPedido(RccVenda venda) {
+    public List listaProduto(RccVenda fkVenda) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccVendaProduto.class); 
-        criteria.add(Restrictions.eq("rcc_venda", venda)); //aqui pode dar erro devido ao nome da tabela no bd
+        criteria.add(Restrictions.eq("rccFkVenda", fkVenda)); //aqui pode dar erro devido ao nome da tabela no bd
         List result = criteria.list();
         session.getTransaction().commit();
         return result;

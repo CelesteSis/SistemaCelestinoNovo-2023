@@ -8,14 +8,15 @@ package view;
 import bean.RccCliente;
 import bean.RccVenda;
 import bean.RccVendaProduto;
-import bean.VendaProdutoControle;
 import bean.RccVendedor;
 import bean.VendaProdutoController;
 import dao.Cliente_DAO; //usado para lista da Fk_cliente
 import dao.Venda_DAO;
 import dao.Venda_produto_DAO;
 import dao.Vendedor_DAO;  //usado para lista da Fk_vendedor
+import dao.Produto_DAO; 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,9 +37,9 @@ public class JDlgVenda extends javax.swing.JDialog {
     private RccVendaProduto rccVendaProduto;
     private JDlgVendaProduto jDlgVendaProduto;
     private JDlgVendaPesquisa jDlgVendaPesquisa;
-    private VendaProdutoControle vendaProdutoControle;
     private Cliente_DAO cliente_DAO;
     private Vendedor_DAO vendedor_DAO;
+    private Produto_DAO produto_DAO;
     private Venda_produto_DAO venda_produto_DAO;
     private Venda_DAO venda_DAO;
     
@@ -50,17 +51,20 @@ public class JDlgVenda extends javax.swing.JDialog {
     public JDlgVenda(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(false, jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
+        Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         setSize(720, 600);
         setTitle("Vendas");
         setLocationRelativeTo(null);
         
         cliente_DAO = new Cliente_DAO();
         vendedor_DAO = new Vendedor_DAO();
-        vendaProdutoControle = new VendaProdutoControle();
         venda_produto_DAO = new Venda_produto_DAO();
+        produto_DAO = new Produto_DAO();
         vendaProdutoController = new VendaProdutoController();
+        venda_DAO = new Venda_DAO();
+        rccVenda = new RccVenda();
         
         
         List listCliente = cliente_DAO.listALL();
@@ -85,17 +89,13 @@ public class JDlgVenda extends javax.swing.JDialog {
         
         //pegar a lista do DAO para colocar na Table
         List lista = venda_produto_DAO.listALL(); //peguei o list do DAO
-        vendaProdutoControle.setList(lista);
-        jTable1.setModel(vendaProdutoControle); 
+        vendaProdutoController.setList(lista);
+        jTable1.setModel(vendaProdutoController); 
     }
     
     public void setTelaAnterior(JDlgVendaProduto jDlgVendaProduto){//método para se conectar com a tela de cadastro de Usuario 
         this.jDlgVendaProduto = jDlgVendaProduto; //agora ela sabe que ela é ela msm e a outra é a outra
     }
-    
-    public void automatico() {
-    jTxtId_venda.setEnabled(false);
-    };
     
     public RccVenda viewBean() { //método para pegar da tela e jogar no bean
         rccVenda = new RccVenda(); //criando o bean
@@ -140,6 +140,28 @@ public class JDlgVenda extends javax.swing.JDialog {
     public int getSelectedRowProd() {
         return jTable1.getSelectedRow();
     }
+    
+//    public void beanViewVP(RccVendaProduto rccVendaProduto) { //do banco para a tela
+//        
+//        String valor = Util.intStr(rccVendaProduto.getRccIdVendaProduto()); //converte int para string (pelo Text)
+//        jTxtId_venda.setText(valor);
+//        
+//        int id_produto = rccVendaProduto.getRccFkProduto();//trazer do BD o ID da PK
+//        produto_DAO = new Produto_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
+//        jCboFk_cliente.setSelectedItem(produto_DAO.list(id_produto)); //passei o ID para o list e ele retorna um bean para a Cbo
+//        
+//        int id_venda = rccVendaProduto.getRccFkVenda(); //trazer do BD o ID da PK
+//        venda_produto_DAO = new Venda_produto_DAO();//usamos o DAO para acessar o list e então selecionar o ID
+//            for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
+//                rccVendaProduto = vendaProdutoController.getBean(linha);
+//                rccVendaProduto.
+//                venda_produto_DAO.listaProduto();
+//        jTable1.setValueAt(venda_DAO.list(id_venda)); //passei o ID para o list e ele retorna um bean para a Table
+//        
+//        
+//                List lista = venda_produto_DAO.listaProduto(rccVenda); 
+//                usuarioController.setList(lista);
+//    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -173,7 +195,6 @@ public class JDlgVenda extends javax.swing.JDialog {
         jTxtDescricao_itens = new javax.swing.JTextField();
         jCboFk_cliente = new javax.swing.JComboBox<RccCliente>();
         jCboFk_vendedor = new javax.swing.JComboBox<RccVendedor>();
-        jChbAutomatico = new javax.swing.JCheckBox();
         jPanel2 = new javax.swing.JPanel();
         jBtnIncluirVp = new javax.swing.JButton();
         jBtnAlterarVp = new javax.swing.JButton();
@@ -280,6 +301,11 @@ public class JDlgVenda extends javax.swing.JDialog {
                 "", "", ""
             }
         ));
+        jTable1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTable1KeyPressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         getContentPane().add(jScrollPane1);
@@ -329,15 +355,6 @@ public class JDlgVenda extends javax.swing.JDialog {
         getContentPane().add(jCboFk_vendedor);
         jCboFk_vendedor.setBounds(485, 122, 207, 20);
 
-        jChbAutomatico.setText("Automatico");
-        jChbAutomatico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jChbAutomaticoActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jChbAutomatico);
-        jChbAutomatico.setBounds(132, 27, 79, 23);
-
         jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -380,13 +397,13 @@ public class JDlgVenda extends javax.swing.JDialog {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addComponent(jBtnIncluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jBtnAlterarVp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jBtnExcluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(159, Short.MAX_VALUE))
+                .addComponent(jBtnExcluirVp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(148, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
@@ -395,69 +412,104 @@ public class JDlgVenda extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jChbAutomaticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jChbAutomaticoActionPerformed
-        // TODO add your handling code here:
-        automatico();
-    }//GEN-LAST:event_jChbAutomaticoActionPerformed
-
     private void jBtnIncluirVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnIncluirVdActionPerformed
         // TODO add your handling code here:
         incluindo = true;
-        
-        Util.habilitar(true, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.habilitar(true, jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        vendaProdutoController.setList(new ArrayList());
+        jTxtId_venda.grabFocus();
+        rccVenda = new RccVenda();
         
     }//GEN-LAST:event_jBtnIncluirVdActionPerformed
 
     private void jBtnCancelarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(false, jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
         Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
         
         Util.mensagem("Ação cancelada.");
     }//GEN-LAST:event_jBtnCancelarVdActionPerformed
 
     private void jBtnAlterarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAlterarVdActionPerformed
         // TODO add your handling code here:
-        incluindo = false;
-        
-        Util.habilitar(true, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
-        Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
+        if (rccVenda != null) {
+            
+            Util.habilitar(true, jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+            Util.habilitar(false, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
+            incluindo = false;
+            
+        } else {
+            Util.mensagem("Deve ser realizada uma pesquisa antes");
+        }
         
     }//GEN-LAST:event_jBtnAlterarVdActionPerformed
 
     private void jBtnConfirmarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConfirmarVdActionPerformed
         // TODO add your handling code here:
-        Util.habilitar(false, jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
-        Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
-        
-        
         rccVenda = viewBean();
-        venda_DAO = new Venda_DAO();
-        
         if (incluindo == true) {
             venda_DAO.insert(rccVenda);
-        }else {
+            Venda_produto_DAO venda_produto_DAO1 = new Venda_produto_DAO();
+            RccVendaProduto rccVendaProduto1;
+            for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
+                rccVendaProduto1 = vendaProdutoController.getBean(linha);
+                rccVendaProduto1.setRccFkVenda(rccVenda.getRccIdVenda());
+                venda_produto_DAO1.insert(rccVendaProduto1);
+            }
+        } else {
             venda_DAO.update(rccVenda);
+            //remover todos os pedidos produtos deste pedido
+            Venda_produto_DAO venda_produto_DAO1 = new Venda_produto_DAO(); 
+            RccVendaProduto rccVendaProduto1;
+            for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
+                rccVendaProduto1 = vendaProdutoController.getBean(linha);
+                venda_produto_DAO1.delete(rccVendaProduto1);
+            }
+
+            //incluir todos os pedidosProduto que estao no jtable
+            Venda_produto_DAO venda_produto_DAO2 = new Venda_produto_DAO();
+            RccVendaProduto rccVendaProduto2;
+            for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
+                rccVendaProduto2 = vendaProdutoController.getBean(linha);
+                rccVendaProduto2.setRccFkVenda(rccVenda.getRccIdVenda());
+                venda_produto_DAO2.insert(rccVendaProduto2);
+            }
         }
+        Util.habilitar(false, jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1, jBtnIncluirVp, jBtnAlterarVp, jBtnExcluirVp);
+        Util.habilitar(true, jBtnIncluirVd, jBtnAlterarVd, jBtnExcluirVd, jBtnPesquisarVd);
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        vendaProdutoController.setList(new ArrayList());
+
+        rccVenda = null;
+        
     }//GEN-LAST:event_jBtnConfirmarVdActionPerformed
 
     private void jBtnExcluirVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnExcluirVdActionPerformed
         // TODO add your handling code here:
-        if (Util.perguntar("Deseja excluir o registro?") == true) {
-            rccVenda = viewBean(); //declarou um obj Bean que recebeu viewBean
-            venda_DAO.delete(rccVenda);
-        }else {
-            Util.mensagem("Operação de exclusão cancelada!");
-        };
+        if (rccVenda != null) {
+            if (Util.perguntar("Deseja excluir o pedido ?") == true) {
+                Venda_produto_DAO venda_produto_DAO1 = new Venda_produto_DAO();
+                
+                RccVendaProduto rccVendaProduto1;
+                for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
+                    rccVendaProduto1 = vendaProdutoController.getBean(linha);
+                    venda_produto_DAO1.delete(rccVendaProduto1);
+                }
+                
+                venda_DAO.delete(rccVenda);
+            }
+        } else {
+            Util.mensagem("Deve ser realizada uma pesquisa antes");
+        }
         
-        Util.limparCampos(jTxtId_venda, jChbAutomatico, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        rccVenda = null;
     }//GEN-LAST:event_jBtnExcluirVdActionPerformed
 
     private void jBtnPesquisarVdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnPesquisarVdActionPerformed
@@ -482,12 +534,12 @@ public class JDlgVenda extends javax.swing.JDialog {
         // TODO add your handling code here:
         int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
         
-        if (Util.perguntar("Deseja excluir o registro?") == true) {
-            rccVendaProduto = vendaProdutoControle.getBean(rowSel);
-            vendedor_DAO.delete(rccVendaProduto);
-
+        if (rowSel == -1) {
+            Util.mensagem("Nenhuma linha foi selecionada.");
         }else {
-            Util.mensagem("Operação de exclusão cancelada!");
+            if(Util.perguntar("Deseja excluir o registro?") == true) {
+                vendaProdutoController.removeBean(rowSel);
+            };
         };
 
     }//GEN-LAST:event_jBtnExcluirVpActionPerformed
@@ -496,11 +548,43 @@ public class JDlgVenda extends javax.swing.JDialog {
         // TODO add your handling code here:   
         incluindo = false;
         
-        jDlgVendaProduto = new JDlgVendaProduto(null, true);
-        jDlgVendaProduto.setTelaAnterior(this); //a sua tela anterior sou eu - eu quem? o JDlgVendaProduto!
-        jDlgVendaProduto.setVisible(true);
-
+        int rowSel = jTable1.getSelectedRow(); //pegar a linha selecionada
+        if (rowSel == -1) {
+            Util.mensagem("Nenhuma linha foi selecionada.");
+        }else {
+            jDlgVendaProduto = new JDlgVendaProduto(null, true);
+            jDlgVendaProduto.setTitle("Alteração de Produtos");
+            jDlgVendaProduto.setTelaAnterior(this); 
+            
+            RccVendaProduto VendaProduto = (RccVendaProduto) vendaProdutoController.getBean(rowSel);
+            jDlgVendaProduto.beanView(VendaProduto);
+            
+//            //cbo com o bean a ser modificado
+//            int id_produto = rccVendaProduto.getRccFkProduto();//trazer do BD o ID da PK
+//            produto_DAO = new Produto_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
+//            jDlgVendaProduto.setCbo(produto_DAO.list(id_produto)); //passei o ID para o list e ele retorna um bean para a Cbo
+//            
+            jDlgVendaProduto.setVisible(true);
+        };
+        
+        
     }//GEN-LAST:event_jBtnAlterarVpActionPerformed
+
+    private void jTable1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable1KeyPressed
+        // TODO add your handling code here:
+//        if (jTable1.getAutoCreateRowSorter() == false) {
+//            double valor_uni = Util.strDouble(jTxtValor_uni.getText());
+//            double quant = Util.strDouble(jTxtQuantidade.getText());
+//            jTxtValor_total.setText(String.valueOf(quant * valor_uni));
+//        } else {
+//            jTxtValor_total.setText("0");
+//        }
+//        
+//        List listVP = venda_produto_DAO.listALL();
+//        for (int i = 0; i < listVP.size(); i++ ) {
+//            jCboFk_vendedor.Item((RccVendedor) listVendedor.get(i));
+//        }
+    }//GEN-LAST:event_jTable1KeyPressed
 
     /**
      * @param args the command line arguments
@@ -557,7 +641,6 @@ public class JDlgVenda extends javax.swing.JDialog {
     private javax.swing.JButton jBtnPesquisarVd;
     private javax.swing.JComboBox<RccCliente> jCboFk_cliente;
     private javax.swing.JComboBox<RccVendedor> jCboFk_vendedor;
-    private javax.swing.JCheckBox jChbAutomatico;
     private javax.swing.JFormattedTextField jFmtData_venda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

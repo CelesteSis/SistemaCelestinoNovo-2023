@@ -6,8 +6,11 @@
 package view;
 
 import bean.RccVenda;
+import bean.RccVendaProduto;
 import bean.VendaControle;
+import bean.VendaProdutoController;
 import dao.Venda_DAO;
+import dao.Venda_produto_DAO;
 import java.util.List;
 import tools.Util;
 
@@ -19,8 +22,11 @@ public class JDlgVendaPesquisa extends javax.swing.JDialog {
     
     private JDlgVenda jDlgVenda;
     private RccVenda rccVenda;
+    private RccVendaProduto rccVendaProduto;
     public VendaControle vendaControle;
+    public VendaProdutoController vendaProdutoController;
     private Venda_DAO venda_DAO;
+    private Venda_produto_DAO venda_produto_DAO;
 
     /**
      * Creates new form JDlgVendaPesquisa
@@ -32,7 +38,11 @@ public class JDlgVendaPesquisa extends javax.swing.JDialog {
         setTitle("Consulta de Venda");
         
         vendaControle = new VendaControle();
+        vendaProdutoController = new VendaProdutoController();
         venda_DAO = new Venda_DAO();
+        venda_produto_DAO = new Venda_produto_DAO();
+        rccVenda = new RccVenda();
+        rccVendaProduto = new RccVendaProduto();
         
         
         List lista = venda_DAO.listALL(); //peguei o list do DAO
@@ -123,7 +133,10 @@ public class JDlgVendaPesquisa extends javax.swing.JDialog {
         // TODO add your handling code here:
         int rowSel = jTable1.getSelectedRow();
         rccVenda = vendaControle.getBean(rowSel);
+        
         jDlgVenda.beanView(rccVenda);
+        List lista = venda_produto_DAO.listaProduto(rccVenda); 
+        vendaProdutoController.setList(lista);
         
         setVisible(false);
     }//GEN-LAST:event_jBtnOkActionPerformed

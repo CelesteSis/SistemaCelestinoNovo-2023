@@ -8,13 +8,12 @@ package bean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import bean.RccVendaProduto;
-
 /**
  *
  * @author art16
  */
 public class VendaProdutoController extends AbstractTableModel{ //modelo de tabela abstrato
+   
     
     List lista = new ArrayList();
 

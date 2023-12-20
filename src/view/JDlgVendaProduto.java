@@ -32,7 +32,13 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
         initComponents();
         setSize(550, 230);
         setLocationRelativeTo(null);
-        //setTitle("Inclusão de Produtos");
+        setTitle("Inclusão de Produtos");
+//        if (jDlgVenda.incluindo == true) {
+//            this.setTitle("Inclusão de Produto");
+//        }else {
+//            this.setTitle("Alteração de Produto");
+//        }
+        
         jTxtValor_total.setEnabled(false);
         jTxtValor_uni.setEnabled(false);
         
@@ -44,16 +50,15 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
         for (int i = 0; i < listProduto.size(); i++ ) {
             jCboFk_produto.addItem((RccProduto) listProduto.get(i));
         }
-//        
-//        if (jDlgVenda.incluindo == true) {
-//            setTitle("Inclusão de Produto");
-//        }else {
-//            setTitle("Alteração de Produto");
-//        }
+        
     }
     
     public void setTelaAnterior(JDlgVenda jDlgVenda){//método para se conectar com a tela de Venda 
         this.jDlgVenda = jDlgVenda; //agora ela sabe que ela é ela msm e a outra é a outra
+    }
+    
+    public void setCbo(Object cboItem){
+        jCboFk_produto.setSelectedItem(cboItem);
     }
     
     public RccVendaProduto viewBean() { //método para pegar da tela e jogar no bean
@@ -205,7 +210,7 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
         RccVendaProduto rccVendaProduto = new RccVendaProduto();
         
         RccProduto rccProduto1 = (RccProduto) jCboFk_produto.getSelectedItem();//pega o item selecionado
-        rccVendaProduto.setRccFkProduto(rccProduto1.getRccIdProduto());//e grava só a chave no BD
+        rccVendaProduto.setRccFkProduto(rccProduto1.getRccIdProduto());//e grava só a chave
         rccVendaProduto.setRccQuantidade(Util.strInt(jTxtQuantidade.getText() ));
         rccVendaProduto.setRccValorUni(Util.strDouble(jTxtValor_uni.getText()));
         
