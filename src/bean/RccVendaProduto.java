@@ -50,7 +50,7 @@ public class RccVendaProduto  implements java.io.Serializable {
         this.rccIdVendaProduto = rccIdVendaProduto;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="rcc_fk_produto", nullable=false)
     public RccProduto getRccProduto() {
         return this.rccProduto;
@@ -60,7 +60,7 @@ public class RccVendaProduto  implements java.io.Serializable {
         this.rccProduto = rccProduto;
     }
 
-@ManyToOne(fetch=FetchType.LAZY)
+@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="rcc_fk_venda", nullable=false)
     public RccVenda getRccVenda() {
         return this.rccVenda;

@@ -89,7 +89,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         
         jFmtData_venda.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
         
-        //pegar a lista do DAO para colocar na Table
+        //lista vazia
         vendaProdutoController.setList(new ArrayList());
         jTable1.setModel(vendaProdutoController); 
     }
@@ -127,6 +127,9 @@ public class JDlgVenda extends javax.swing.JDialog {
         
         jCboFk_cliente.setSelectedItem(rccVenda.getRccCliente());
         jCboFk_vendedor.setSelectedItem(rccVenda.getRccVendedor());
+        
+        List lista = venda_produto_DAO.listaProduto(rccVenda); 
+        vendaProdutoController.setList(lista);
 
     };
     
@@ -502,6 +505,9 @@ public class JDlgVenda extends javax.swing.JDialog {
         }
         
         Util.limparCampos(jTxtId_venda, jFmtData_venda, jTxtFrete, jTxtValor_total, jTxtDescricao_itens, jCboFk_cliente, jCboFk_vendedor, jBtnConfirmarVd, jBtnCancelarVd, jTable1);
+        //lista vazia
+        vendaProdutoController.setList(new ArrayList());
+        jTable1.setModel(vendaProdutoController); 
         rccVenda = null;
     }//GEN-LAST:event_jBtnExcluirVdActionPerformed
 
@@ -552,11 +558,6 @@ public class JDlgVenda extends javax.swing.JDialog {
             RccVendaProduto VendaProduto = (RccVendaProduto) vendaProdutoController.getBean(rowSel);
             jDlgVendaProduto.beanView(VendaProduto);
             
-//            //cbo com o bean a ser modificado
-//            int id_produto = rccVendaProduto.getRccFkProduto();//trazer do BD o ID da PK
-//            produto_DAO = new Produto_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
-//            jDlgVendaProduto.setCbo(produto_DAO.list(id_produto)); //passei o ID para o list e ele retorna um bean para a Cbo
-//            
             jDlgVendaProduto.setVisible(true);
         };
         

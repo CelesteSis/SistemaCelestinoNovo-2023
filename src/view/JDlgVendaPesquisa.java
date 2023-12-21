@@ -135,8 +135,8 @@ public class JDlgVendaPesquisa extends javax.swing.JDialog {
         rccVenda = vendaControle.getBean(rowSel);
         
         jDlgVenda.beanView(rccVenda);
-        List lista = venda_produto_DAO.listaProduto(rccVenda); 
-        vendaProdutoController.setList(lista);
+//        List lista = venda_produto_DAO.listaProduto(rccVenda); 
+//        vendaProdutoController.setList(lista);
         
         setVisible(false);
     }//GEN-LAST:event_jBtnOkActionPerformed
