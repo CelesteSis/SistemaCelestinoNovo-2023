@@ -1,12 +1,17 @@
 package bean;
-// Generated 19/09/2023 11:40:58 by Hibernate Tools 4.3.1
+// Generated 20/12/2023 19:07:26 by Hibernate Tools 4.3.1
 
 
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +26,7 @@ public class RccProduto  implements java.io.Serializable {
 
      private int rccIdProduto;
      private String rccNomeProduto;
-     private double rccPreco;
+     private Double rccPreco;
      private String rccTamanho;
      private String rccComprimento;
      private String rccLargura;
@@ -33,9 +38,10 @@ public class RccProduto  implements java.io.Serializable {
      private String rccCor;
 
     public RccProduto() {
-    }     
+    }
 
-    public RccProduto(String rccNomeProduto, double rccPreco, String rccTamanho, String rccComprimento, String rccLargura, String rccTipoMaterial, String rccDescricao, String rccMarca, String rccAno, String rccCategoria, String rccCor) {
+	
+    public RccProduto(String rccNomeProduto, Double rccPreco, String rccTamanho, String rccComprimento, String rccLargura, String rccTipoMaterial, String rccDescricao, String rccMarca, String rccAno, String rccCategoria, String rccCor) {
        this.rccNomeProduto = rccNomeProduto;
        this.rccPreco = rccPreco;
        this.rccTamanho = rccTamanho;
@@ -73,11 +79,11 @@ public class RccProduto  implements java.io.Serializable {
 
     
     @Column(name="rcc_preco", nullable=false, precision=7)
-    public double getRccPreco() {
+    public Double getRccPreco() {
         return this.rccPreco;
     }
     
-    public void setRccPreco(double rccPreco) {
+    public void setRccPreco(Double rccPreco) {
         this.rccPreco = rccPreco;
     }
 
@@ -171,14 +177,16 @@ public class RccProduto  implements java.io.Serializable {
         this.rccCor = rccCor;
     }
 
+     @Override
     public String toString() {
         return getRccNomeProduto();
     }
     
+     @Override
     public boolean equals(Object object) { //o equals recebe um object
-        if (object instanceof RccProduto) { //esse object é um cliente
-            RccProduto rccProduto = (RccProduto) object; //esse Cliente é o mesmo do método beanView
-            if (this.getRccIdProduto() == rccProduto.getRccIdProduto()) { //this => jCbo == cliente => que esta sendo passado
+        if (object instanceof RccProduto) { //esse object é um produto
+            RccProduto rccProduto = (RccProduto) object; //esse produto é o mesmo do método beanView
+            if (this.getRccIdProduto() == rccProduto.getRccIdProduto()) { //this => jCbo == produto => que esta sendo passado
                 return true;
             }
         }

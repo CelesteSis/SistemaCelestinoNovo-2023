@@ -34,6 +34,7 @@ public class JDlgVenda extends javax.swing.JDialog {
     MaskFormatter mascaraDataVenda;
     
     private RccVenda rccVenda;
+    private RccCliente rccCliente;
     private RccVendaProduto rccVendaProduto;
     private JDlgVendaProduto jDlgVendaProduto;
     private JDlgVendaPesquisa jDlgVendaPesquisa;
@@ -65,6 +66,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         vendaProdutoController = new VendaProdutoController();
         venda_DAO = new Venda_DAO();
         rccVenda = new RccVenda();
+        rccCliente = new RccCliente();
         
         
         List listCliente = cliente_DAO.listALL();
@@ -88,8 +90,7 @@ public class JDlgVenda extends javax.swing.JDialog {
         jFmtData_venda.setFormatterFactory(new DefaultFormatterFactory(mascaraDataVenda)); //mascara instanciada e no campo
         
         //pegar a lista do DAO para colocar na Table
-        List lista = venda_produto_DAO.listALL(); //peguei o list do DAO
-        vendaProdutoController.setList(lista);
+        vendaProdutoController.setList(new ArrayList());
         jTable1.setModel(vendaProdutoController); 
     }
     
@@ -108,12 +109,8 @@ public class JDlgVenda extends javax.swing.JDialog {
         rccVenda.setRccValorTotal(Util.strDouble(jTxtValor_total.getText()));
         rccVenda.setRccDescricaoItens(jTxtDescricao_itens.getText());
         
-        //Para gravar apenas o numero do ID e não o bean da Cbo inteiro
-        RccCliente rccCliente1 = (RccCliente) jCboFk_cliente.getSelectedItem(); //pega o item selecionado
-        rccVenda.setRccFkCliente(rccCliente1.getRccIdCliente()); //e grava só a chave no BD
-        
-        RccVendedor rccVendedor1 = (RccVendedor) jCboFk_vendedor.getSelectedItem(); //pega o item selecionado
-        rccVenda.setRccFkVendedor(rccVendedor1.getRccIdVendedor()); //e grava só a chave no BD   
+        rccVenda.setRccCliente((RccCliente) jCboFk_cliente.getSelectedItem());
+        rccVenda.setRccVendedor((RccVendedor) jCboFk_vendedor.getSelectedItem());
         
         return rccVenda;
     };
@@ -128,13 +125,9 @@ public class JDlgVenda extends javax.swing.JDialog {
         jTxtValor_total.setText(Util.doubleStr(rccVenda.getRccValorTotal()));
         jTxtDescricao_itens.setText(rccVenda.getRccDescricaoItens());
         
-        int id_cliente = rccVenda.getRccFkCliente();//trazer do BD o ID da PK
-        cliente_DAO = new Cliente_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
-        jCboFk_cliente.setSelectedItem(cliente_DAO.list(id_cliente)); //passei o ID para o list e ele retorna um bean para a Cbo
-        
-        int id_vendedor = rccVenda.getRccFkVendedor(); //trazer do BD o ID da PK
-        vendedor_DAO = new Vendedor_DAO(); //usamos o DAO para acessar o list e então selecionar o ID
-        jCboFk_vendedor.setSelectedItem(vendedor_DAO.list(id_vendedor)); //passei o ID para o list e ele retorna um bean para a Cbo
+        jCboFk_cliente.setSelectedItem(rccVenda.getRccCliente());
+        jCboFk_vendedor.setSelectedItem(rccVenda.getRccVendedor());
+
     };
     
     public int getSelectedRowProd() {
@@ -458,7 +451,7 @@ public class JDlgVenda extends javax.swing.JDialog {
             RccVendaProduto rccVendaProduto1;
             for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
                 rccVendaProduto1 = vendaProdutoController.getBean(linha);
-                rccVendaProduto1.setRccFkVenda(rccVenda.getRccIdVenda());
+                rccVendaProduto1.setRccVenda(rccVenda);
                 venda_produto_DAO1.insert(rccVendaProduto1);
             }
         } else {
@@ -476,7 +469,7 @@ public class JDlgVenda extends javax.swing.JDialog {
             RccVendaProduto rccVendaProduto2;
             for (int linha = 0; linha < jTable1.getRowCount(); linha++) {
                 rccVendaProduto2 = vendaProdutoController.getBean(linha);
-                rccVendaProduto2.setRccFkVenda(rccVenda.getRccIdVenda());
+                rccVendaProduto2.setRccVenda(rccVenda);
                 venda_produto_DAO2.insert(rccVendaProduto2);
             }
         }

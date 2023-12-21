@@ -1,14 +1,20 @@
 package bean;
-// Generated 19/09/2023 11:40:58 by Hibernate Tools 4.3.1
+// Generated 20/12/2023 19:07:26 by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,23 +30,24 @@ public class RccVenda  implements java.io.Serializable {
 
 
      private int rccIdVenda;
+     private RccCliente rccCliente;
+     private RccVendedor rccVendedor;
      private Date rccDataVenda;
-     private double rccFrete;
-     private double rccValorTotal;
+     private Double rccFrete;
+     private Double rccValorTotal;
      private String rccDescricaoItens;
-     private int rccFkCliente;
-     private int rccFkVendedor;
 
     public RccVenda() {
     }
 
-    public RccVenda(Date rccDataVenda, double rccFrete, double rccValorTotal, String rccDescricaoItens, int rccFkCliente, int rccFkVendedor) {
-       this.rccDataVenda = rccDataVenda;
-       this.rccFrete = rccFrete;
-       this.rccValorTotal = rccValorTotal;
-       this.rccDescricaoItens = rccDescricaoItens;
-       this.rccFkCliente = rccFkCliente;
-       this.rccFkVendedor = rccFkVendedor;
+	
+    public RccVenda(RccCliente rccCliente, RccVendedor rccVendedor, Date rccDataVenda, Double rccFrete, Double rccValorTotal, String rccDescricaoItens) {
+        this.rccCliente = rccCliente;
+        this.rccVendedor = rccVendedor;
+        this.rccDataVenda = rccDataVenda;
+        this.rccFrete = rccFrete;
+        this.rccValorTotal = rccValorTotal;
+        this.rccDescricaoItens = rccDescricaoItens;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -55,6 +62,26 @@ public class RccVenda  implements java.io.Serializable {
         this.rccIdVenda = rccIdVenda;
     }
 
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="rcc_fk_cliente", nullable=false)
+    public RccCliente getRccCliente() {
+        return this.rccCliente;
+    }
+    
+    public void setRccCliente(RccCliente rccCliente) {
+        this.rccCliente = rccCliente;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="rcc_fk_vendedor", nullable=false)
+    public RccVendedor getRccVendedor() {
+        return this.rccVendedor;
+    }
+    
+    public void setRccVendedor(RccVendedor rccVendedor) {
+        this.rccVendedor = rccVendedor;
+    }
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name="rcc_data_venda", nullable=false, length=19)
     public Date getRccDataVenda() {
@@ -67,21 +94,21 @@ public class RccVenda  implements java.io.Serializable {
 
     
     @Column(name="rcc_frete", nullable=false, precision=7)
-    public double getRccFrete() {
+    public Double getRccFrete() {
         return this.rccFrete;
     }
     
-    public void setRccFrete(double rccFrete) {
+    public void setRccFrete(Double rccFrete) {
         this.rccFrete = rccFrete;
     }
 
     
     @Column(name="rcc_valor_total", nullable=false, precision=7)
-    public double getRccValorTotal() {
+    public Double getRccValorTotal() {
         return this.rccValorTotal;
     }
     
-    public void setRccValorTotal(double rccValorTotal) {
+    public void setRccValorTotal(Double rccValorTotal) {
         this.rccValorTotal = rccValorTotal;
     }
 
@@ -95,29 +122,22 @@ public class RccVenda  implements java.io.Serializable {
         this.rccDescricaoItens = rccDescricaoItens;
     }
 
+
+//     @Override
+//    public String toString() {
+//        return getRccIdVenda();
+//    }
     
-    @Column(name="rcc_fk_cliente", nullable=false)
-    public int getRccFkCliente() {
-        return this.rccFkCliente;
-    }
-    
-    public void setRccFkCliente(int rccFkCliente) {
-        this.rccFkCliente = rccFkCliente;
-    }
-
-    
-    @Column(name="rcc_fk_vendedor", nullable=false)
-    public int getRccFkVendedor() {
-        return this.rccFkVendedor;
-    }
-    
-    public void setRccFkVendedor(int rccFkVendedor) {
-        this.rccFkVendedor = rccFkVendedor;
-    }
-
-
-
-
+     @Override
+    public boolean equals(Object object) { //o equals recebe um object
+        if (object instanceof RccVenda) { //esse object é um venda
+            RccVenda rccVenda = (RccVenda) object; //esse venda é o mesmo do método beanView
+            if (this.getRccIdVenda() == rccVenda.getRccIdVenda()) { //this => jCbo == venda => que esta sendo passado
+                return true;
+            }
+        }
+        return false;
+    };
 }
 
 

@@ -46,11 +46,17 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://10.7.0.51:33062/db_rebeca_celestino?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">rebeca_celestino</property>
     <property name="hibernate.connection.password">rebeca_celestino</property>
-    <mapping class="bean.RccProduto"/>
-    <mapping class="bean.RccVendedor"/>
-    <mapping class="bean.RccUsuario"/>
-    <mapping class="bean.RccVenda"/>
     <mapping class="bean.RccCliente"/>
+    <mapping class="bean.RccVenda"/>
+    <mapping class="bean.ProdutoController"/>
+    <mapping class="bean.RccVendedor"/>
+    <mapping class="bean.VendaProdutoController"/>
+    <mapping class="bean.RccUsuario"/>
+    <mapping class="bean.UsuarioControle"/>
     <mapping class="bean.RccVendaProduto"/>
+    <mapping class="bean.RccProduto"/>
+    <mapping class="bean.VendedorController"/>
+    <mapping class="bean.ClienteControle"/>
+    <mapping class="bean.VendaControle"/>
   </session-factory>
 </hibernate-configuration>

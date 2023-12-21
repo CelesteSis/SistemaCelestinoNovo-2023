@@ -5,7 +5,9 @@
  */
 package dao;
 
+import bean.RccCliente;
 import bean.RccVenda;
+import bean.RccVendedor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -71,30 +73,30 @@ public class Venda_DAO extends DAO_Abstract{
         return result;
     }
     
-    public List listFkCliente(int fkCliente) {
+    public List listFkCliente(RccCliente cliente) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccVenda.class); 
-        criteria.add(Restrictions.eq("rccFkCliente", fkCliente));
+        criteria.add(Restrictions.eq("rccCliente", cliente));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;
     }
     
-    public List listFkVendedor(int fkVendedor) {
+    public List listFkVendedor(RccVendedor vendedor) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccVenda.class); 
-        criteria.add(Restrictions.eq("rccFkVendedor", fkVendedor));
+        criteria.add(Restrictions.eq("rccVendedor", vendedor));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;
     }
     
-    public List listDataFk(Date dataVenda, int fkCliente, int fkVendedor) {
+    public List listDataFk(Date dataVenda, RccCliente cliente, RccVendedor vendedor) {
         session.beginTransaction();
         Criteria criteria = session.createCriteria(RccVenda.class); 
         criteria.add(Restrictions.eq("rccDataVenda", dataVenda));
-        criteria.add(Restrictions.eq("rccFkCliente", fkCliente));
-        criteria.add(Restrictions.eq("rccFkVendedor", fkVendedor));
+        criteria.add(Restrictions.eq("rccCliente", cliente));
+        criteria.add(Restrictions.eq("rccVendedor", vendedor));
         List result = criteria.list();
         session.getTransaction().commit();
         return result;

@@ -1,13 +1,17 @@
 package bean;
-// Generated 19/09/2023 11:40:58 by Hibernate Tools 4.3.1
+// Generated 20/12/2023 19:07:26 by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -60,6 +64,7 @@ public class RccCliente  implements java.io.Serializable {
         this.rccSenha = rccSenha;
         this.rccConfirmeSenha = rccConfirmeSenha;
     }
+    
    
      @Id @GeneratedValue(strategy=IDENTITY)
 
@@ -154,7 +159,7 @@ public class RccCliente  implements java.io.Serializable {
     }
 
     
-    @Column(name="rcc_celular", nullable=false, length=11)
+    @Column(name="rcc_celular", nullable=false, length=15)
     public String getRccCelular() {
         return this.rccCelular;
     }
@@ -247,6 +252,8 @@ public class RccCliente  implements java.io.Serializable {
         }
         return false;
     };
+
+
 
 
 }

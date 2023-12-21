@@ -1,13 +1,15 @@
 package bean;
-// Generated 19/09/2023 11:40:58 by Hibernate Tools 4.3.1
-
+// Generated 20/12/2023 19:07:26 by Hibernate Tools 4.3.1
 
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,24 +23,24 @@ public class RccVendaProduto  implements java.io.Serializable {
 
 
      private int rccIdVendaProduto;
+     private RccProduto rccProduto;
+     private RccVenda rccVenda;
      private int rccQuantidade;
-     private double rccValorUni;
-     private int rccFkVenda;
-     private int rccFkProduto;
+     private Double rccValorUni;
 
     public RccVendaProduto() {
     }
 
-    public RccVendaProduto(int rccQuantidade, double rccValorUni, int rccFkVenda, int rccFkProduto) {
+    public RccVendaProduto(RccProduto rccProduto, RccVenda rccVenda, int rccQuantidade, Double rccValorUni) {
+       this.rccProduto = rccProduto;
+       this.rccVenda = rccVenda;
        this.rccQuantidade = rccQuantidade;
        this.rccValorUni = rccValorUni;
-       this.rccFkVenda = rccFkVenda;
-       this.rccFkProduto = rccFkProduto;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
 
-     
+    
     @Column(name="rcc_id_venda_produto", unique=true, nullable=false)
     public int getRccIdVendaProduto() {
         return this.rccIdVendaProduto;
@@ -46,6 +48,26 @@ public class RccVendaProduto  implements java.io.Serializable {
     
     public void setRccIdVendaProduto(int rccIdVendaProduto) {
         this.rccIdVendaProduto = rccIdVendaProduto;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="rcc_fk_produto", nullable=false)
+    public RccProduto getRccProduto() {
+        return this.rccProduto;
+    }
+    
+    public void setRccProduto(RccProduto rccProduto) {
+        this.rccProduto = rccProduto;
+    }
+
+@ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="rcc_fk_venda", nullable=false)
+    public RccVenda getRccVenda() {
+        return this.rccVenda;
+    }
+    
+    public void setRccVenda(RccVenda rccVenda) {
+        this.rccVenda = rccVenda;
     }
 
     
@@ -60,32 +82,12 @@ public class RccVendaProduto  implements java.io.Serializable {
 
     
     @Column(name="rcc_valor_uni", nullable=false, precision=7)
-    public double getRccValorUni() {
+    public Double getRccValorUni() {
         return this.rccValorUni;
     }
     
-    public void setRccValorUni(double rccValorUni) {
+    public void setRccValorUni(Double rccValorUni) {
         this.rccValorUni = rccValorUni;
-    }
-
-    
-    @Column(name="rcc_fk_venda", nullable=false)
-    public int getRccFkVenda() {
-        return this.rccFkVenda;
-    }
-    
-    public void setRccFkVenda(int rccFkVenda) {
-        this.rccFkVenda = rccFkVenda;
-    }
-
-    
-    @Column(name="rcc_fk_produto", nullable=false)
-    public int getRccFkProduto() {
-        return this.rccFkProduto;
-    }
-    
-    public void setRccFkProduto(int rccFkProduto) {
-        this.rccFkProduto = rccFkProduto;
     }
 
 

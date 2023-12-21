@@ -1,14 +1,18 @@
 package bean;
-// Generated 19/09/2023 11:40:58 by Hibernate Tools 4.3.1
+// Generated 20/12/2023 19:07:26 by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,18 +33,17 @@ public class RccVendedor  implements java.io.Serializable {
      private String rccCpf;
      private Date rccNascimento;
      private String rccEmail;
-     private double rccSalario;
+     private Double rccSalario;
 
     public RccVendedor() {
     }
 
-    public RccVendedor(String rccNome, String rccSexo, String rccCpf, Date rccNascimento, String rccEmail, double rccSalario) {
-       this.rccNome = rccNome;
-       this.rccSexo = rccSexo;
-       this.rccCpf = rccCpf;
-       this.rccNascimento = rccNascimento;
-       this.rccEmail = rccEmail;
-       this.rccSalario = rccSalario;
+	
+    public RccVendedor(String rccNome, String rccCpf, String rccEmail, Double rccSalario) {
+        this.rccNome = rccNome;
+        this.rccCpf = rccCpf;
+        this.rccEmail = rccEmail;
+        this.rccSalario = rccSalario;
     }
    
      @Id @GeneratedValue(strategy=IDENTITY)
@@ -86,7 +89,7 @@ public class RccVendedor  implements java.io.Serializable {
     }
 
     @Temporal(TemporalType.DATE)
-    @Column(name="rcc_nascimento", nullable=false, length=10)
+    @Column(name="rcc_nascimento", length=10)
     public Date getRccNascimento() {
         return this.rccNascimento;
     }
@@ -107,29 +110,29 @@ public class RccVendedor  implements java.io.Serializable {
 
     
     @Column(name="rcc_salario", nullable=false, precision=10)
-    public double getRccSalario() {
+    public Double getRccSalario() {
         return this.rccSalario;
     }
     
-    public void setRccSalario(double rccSalario) {
+    public void setRccSalario(Double rccSalario) {
         this.rccSalario = rccSalario;
     }
-    
+
      @Override
     public String toString() {
         return getRccNome();
     }
     
+     @Override
     public boolean equals(Object object) { //o equals recebe um object
-        if (object instanceof RccVendedor) { //esse object é um Vendedor
-            RccVendedor rccVendedor = (RccVendedor) object; //esse Vendedor é o mesmo do método beanView
-            if (this.getRccIdVendedor()== rccVendedor.getRccIdVendedor()) { //this => jCbo == vendedor => que esta sendo passado
+        if (object instanceof RccVendedor) { //esse object é um vendedor
+            RccVendedor rccVendedor = (RccVendedor) object; //esse vendedor é o mesmo do método beanView
+            if (this.getRccIdVendedor() == rccVendedor.getRccIdVendedor()) { //this => jCbo == vendedor => que esta sendo passado
                 return true;
             }
         }
         return false;
     };
-
 
 
 

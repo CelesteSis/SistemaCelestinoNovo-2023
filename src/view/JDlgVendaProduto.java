@@ -64,11 +64,8 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
     public RccVendaProduto viewBean() { //método para pegar da tela e jogar no bean
         RccVendaProduto rccVendaProduto = new RccVendaProduto(); //criando o bean
         
-        int quant = Util.strInt(jTxtQuantidade.getText());  
-        
-        RccProduto produto1 = (RccProduto) jCboFk_produto.getSelectedItem(); //pega o item selecionado
-        rccVendaProduto.setRccFkProduto(produto1.getRccIdProduto());//e grava só a chave no BD
-        rccVendaProduto.setRccQuantidade(quant);
+        rccVendaProduto.setRccProduto((RccProduto) jCboFk_produto.getSelectedItem());
+        rccVendaProduto.setRccQuantidade(Util.strInt(jTxtQuantidade.getText()));
         rccVendaProduto.setRccValorUni(Util.strDouble(jTxtValor_uni.getText()));
         
         return rccVendaProduto;
@@ -76,13 +73,8 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
     
     public void beanView(RccVendaProduto rccVendaProduto) { //do banco para a tela
         
-        int id_produto = rccVendaProduto.getRccFkProduto(); //trazer do BD o ID da PK
-        produto_DAO = new Produto_DAO();//usamos o DAO para acessar o list e então selecionar o ID
-        jCboFk_produto.setSelectedItem(produto_DAO.list(id_produto));  //passei o ID para o list e ele retorna um bean para a Cbo
-       
-        String num = Util.intStr(rccVendaProduto.getRccQuantidade()); //converte int para string (pelo Text)
-        jTxtQuantidade.setText(num);
-
+        jCboFk_produto.setSelectedItem(rccVendaProduto.getRccProduto());
+        jTxtQuantidade.setText(Integer.toString(rccVendaProduto.getRccQuantidade()));
         jTxtValor_uni.setText(Util.doubleStr(rccVendaProduto.getRccValorUni()));
 
     };
@@ -209,8 +201,7 @@ public class JDlgVendaProduto extends javax.swing.JDialog {
         
         RccVendaProduto rccVendaProduto = new RccVendaProduto();
         
-        RccProduto rccProduto1 = (RccProduto) jCboFk_produto.getSelectedItem();//pega o item selecionado
-        rccVendaProduto.setRccFkProduto(rccProduto1.getRccIdProduto());//e grava só a chave
+        rccVendaProduto.setRccProduto( (RccProduto) jCboFk_produto.getSelectedItem() );
         rccVendaProduto.setRccQuantidade(Util.strInt(jTxtQuantidade.getText() ));
         rccVendaProduto.setRccValorUni(Util.strDouble(jTxtValor_uni.getText()));
         
