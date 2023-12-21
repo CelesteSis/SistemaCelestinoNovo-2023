@@ -212,7 +212,7 @@ public class JDlgConsultaVenda extends javax.swing.JDialog {
     private void jBtnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnConsultarActionPerformed
         // TODO add your handling code here:
         //Para buscar apenas o numero do ID e não o bean da Cbo inteiro
-        RccCliente rccCliente1 = (RccCliente) jCboFkCliente.getSelectedItem(); //pega o item selecionado      
+        RccCliente rccCliente3= (RccCliente) jCboFkCliente.getSelectedItem(); //pega o item selecionado  
         RccVendedor rccVendedor1 = (RccVendedor) jCboFkVendedor.getSelectedItem(); //pega o item selecionado
         
         //se os campos estiverem em branco:
